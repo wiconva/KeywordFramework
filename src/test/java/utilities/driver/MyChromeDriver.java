@@ -2,14 +2,14 @@ package utilities.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utilities.tools.Keys;
+import utilities.keys.AppKeys;
 
 public class MyChromeDriver {
     WebDriver webDriver;
     public MyChromeDriver(boolean headless){
         ChromeOptions chromeOptions = new ChromeOptions();
         if (headless == true)chromeOptions.addArguments("--headless");
-        System.setProperty(Keys.CHROME_DRIVER_PROPERTIE, Keys.USER_DIR+Keys.LOCATION_CHROME_DRIVER);
+        System.setProperty(AppKeys.CHROME_DRIVER_PROPERTIE, AppKeys.USER_DIR+ AppKeys.LOCATION_CHROME_DRIVER);
         webDriver = new ChromeDriver(chromeOptions);
         webDriver.manage().window().maximize();
     }

@@ -1,10 +1,10 @@
 package utilities.framework;
 
 import utilities.actions.WebActions;
-import utilities.tools.Keys;
+import utilities.keys.AppKeys;
+import utilities.tools.ExcelReader;
 import utilities.tools.LocationPathFinder;
 import utilities.tools.TestValidator;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -17,7 +17,7 @@ public class TestFile {
     private String url;
     private String [][] steps;
     private final int CELLS = 4;
-    private final String PROPERTIES_FILE_NAME = Keys.PROFILE_FILE_NAME;
+    private final String PROPERTIES_FILE_NAME = AppKeys.PROFILE_FILE_NAME;
     private String testProfileName;
     public Hashtable <String,String> outputs = new Hashtable<>();
     private WebActions webActions;
@@ -27,11 +27,38 @@ public class TestFile {
        this. testProfileName = profile;
     }
 
-    public void tranformInput (int stepNum){
+    public String getKeyword(int currentStep){
+        String currenStepKeyword = this.getSteps()[currentStep][AppKeys.KEYWORD_ROW_NUMBER].toLowerCase();
+        return  currenStepKeyword;
+    }
 
+    public String [] getWebObjectInput(int currentStep){
+        String currentStepWebObject = this.getSteps()[currentStep][AppKeys.OBJECT_ROW_NUMBER];
+        String[] transformWebObjectInput;
+        if (currentStepWebObject != null){
+            transformWebObjectInput= ExcelReader.readObjectRespositoryFile(currentStepWebObject.split(AppKeys.INPUT_DELIMITER)[0],
+                    currentStepWebObject.split(AppKeys.INPUT_DELIMITER)[AppKeys.OBJECT_ROW_NUMBER]);
+            if(transformWebObjectInput[0] == null) transformWebObjectInput[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER]= TestValidator.MSG_STEP_ERROR+ " The method locator is not define, check the Object repository file";
+            if(transformWebObjectInput[1] == null) transformWebObjectInput[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER]= TestValidator.MSG_STEP_ERROR+ " The Object locator is not define, check the Object repository file";
+            return  transformWebObjectInput;
+        }
+        return null;
+    }
+
+    public String [] getOuputs(int currentStep) {
+        String currentStepOutputs = this.getSteps()[currentStep][AppKeys.OUTPUT_ROW_NUMBER];
+        return  (!(currentStepOutputs==null)) ? currentStepOutputs.split(AppKeys.INPUT_DELIMITER):null;
+    }
+
+    public String [] getInput (int currentStep){
+        String currenStepInputs = this.getSteps()[currentStep][AppKeys.INPUT_ROW_NUMBER];
+        return  (!(currenStepInputs==null)) ? currenStepInputs.split(AppKeys.INPUT_DELIMITER):null;
+    }
+
+    public void tranformInput (int stepNum){
         String inputStep = this.steps[stepNum][2];
         if (!(inputStep== null)){
-            String regex = Keys.VARIABLE_INPUT_FORMAT_REGEX;
+            String regex = AppKeys.VARIABLE_INPUT_FORMAT_REGEX;
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(inputStep);
             String [] result;
@@ -63,7 +90,7 @@ public class TestFile {
     }
 
     private String loadPropertiesFile (String key){
-        LocationPathFinder locationPathFinder = new LocationPathFinder(Keys.PROFILE_TARGET_DIR_PATH,this.PROPERTIES_FILE_NAME);
+        LocationPathFinder locationPathFinder = new LocationPathFinder(AppKeys.PROFILE_TARGET_DIR_PATH,this.PROPERTIES_FILE_NAME);
         try {
             Properties properties = new Properties();
             properties.load(new FileReader(locationPathFinder.getPath()));
