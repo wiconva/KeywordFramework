@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="my suite" verbose="1" parallel="true" thread-count="1">
+    <test name="Login page">
+        <parameter name="browser" value="chrome"></parameter>
+        <parameter name="runheadless" value="true"></parameter>
+        <parameter name="profile" value="QA"></parameter>
+
+        <groups>
+            <run>
+                <include name="ALL"></include>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="tests.thisFrameworkTest.FrameworkTest"/>
+        </classes>
+    </test>
+</suite>
