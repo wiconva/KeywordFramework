@@ -13,18 +13,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TestFile {
+    private boolean isFather;
     private String name;
     private String url;
     private String [][] steps;
     private final int CELLS = 4;
-    private final String PROPERTIES_FILE_NAME = AppKeys.PROFILE_FILE_NAME;
     private String testProfileName;
     public Hashtable <String,String> outputs = new Hashtable<>();
     private WebActions webActions;
 
-    public TestFile(String name, String profile){
+    public TestFile(String name, String profile, boolean isFather){
        this.name = name;
        this. testProfileName = profile;
+       this. isFather = isFather;
     }
 
     public String getKeyword(int currentStep){
@@ -76,7 +77,7 @@ public class TestFile {
                     varNotFormatInput = s.replace("${","").replace("}","");
                     if(!varNotFormatInput.equals("")){
                         String propertieRaded;
-                        propertieRaded = ((loadPropertiesFile(varNotFormatInput) == null))?outputs.get(varNotFormatInput):loadPropertiesFile(varNotFormatInput);
+                        propertieRaded = ((getProfileKey(varNotFormatInput) == null))?outputs.get(varNotFormatInput): getProfileKey(varNotFormatInput);
                         if(!(propertieRaded == null)){
                             this.steps[stepNum][2]= this.steps[stepNum][2].replace(s,propertieRaded);
                         }else{
@@ -89,18 +90,20 @@ public class TestFile {
 
     }
 
-    private String loadPropertiesFile (String key){
-        LocationPathFinder locationPathFinder = new LocationPathFinder(AppKeys.PROFILE_TARGET_DIR_PATH,this.PROPERTIES_FILE_NAME);
+    private String getProfileKey(String key){
+        LocationPathFinder locationPathFinder = new LocationPathFinder(AppKeys.PROFILE_TARGET_DIR_PATH,AppKeys.PROFILE_FILE_NAME);
         try {
             Properties properties = new Properties();
             properties.load(new FileReader(locationPathFinder.getPath()));
             return properties.getProperty(this.testProfileName+"."+ key);
         } catch (IOException e) {
-            TestValidator.assertAndWriteInConsole(e.toString(),true, TestValidator.ERROR_LEVEL);
+            TestValidator.assertAndWriteInConsole(e.toString(),TestValidator.ERROR_LEVEL);
         }
         return null;
     }
 
+    public boolean isFather(){return this.isFather;};
+    public String getTestProfileName(){return this.testProfileName;};
     public void setWebActions(WebActions webActions) {this.webActions = webActions;}
     public WebActions getWebActions(){return this.webActions;}
     public String [][] getSteps(){return this.steps;}

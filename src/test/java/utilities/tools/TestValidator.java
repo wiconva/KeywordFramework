@@ -24,8 +24,8 @@ public class TestValidator {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void assertAndWriteInConsole(String msg, boolean timeFlag, int logLevel){
-        msg = giveFormatAtMsg(msg,timeFlag,logLevel);
+    public static void assertAndWriteInConsole(String msg, int logLevel){
+        msg = giveFormatAtMsg(msg,logLevel);
         System.out.println(msg);
         if(msg.contains(MSG_STEP_ERROR) || logLevel == ERROR_LEVEL) Assert.fail(msg);
     }
@@ -36,17 +36,12 @@ public class TestValidator {
         return currentDateTime;
     }
 
-    private static String giveFormatAtMsg (String msg, boolean timeFlag , int logLevel){
+    private static String giveFormatAtMsg (String msg, int logLevel){
 
         logLevel = (msg.contains(MSG_STEP_ERROR))?ERROR_LEVEL:logLevel;
 
-        if(timeFlag == true){
-            if(msg.contains("====")){
-                msg = msg;
-            }else{
-                msg = getTime()+msg;
-            }
-        }else if(msg.contains("**")){
+    //Format for a father test.
+        if(msg.contains("**")){
             msg = msg.replace("\n","\n\t\t\t  ");
             msg = "\t"+msg;
         }else {
@@ -57,7 +52,7 @@ public class TestValidator {
 
         switch (logLevel){
             case STEP_LEVEL:
-                msg = ANSI_GREEN+msg+ANSI_RESET;
+                msg =(ANSI_GREEN+getTime()+ msg+ANSI_RESET).replace("\t","");
                 break;
             case WARNING_LEVEL:
                 msg = ANSI_YELLOW+msg+ANSI_RESET;
@@ -72,6 +67,7 @@ public class TestValidator {
                 msg = ANSI_BLUE+msg+ANSI_RESET;
                 break;
         }
+
         return msg;
     }
 

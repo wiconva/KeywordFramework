@@ -7,6 +7,7 @@ import utilities.actions.WebActions;
 import utilities.keys.AppKeys;
 import utilities.tools.*;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 
@@ -15,11 +16,11 @@ public class TestExecutor {
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"browser","runheadless","profile"})
-    public void beforeMehtods(ITestResult r, String browser, boolean runeadless, String profile){
+    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runeadless, String profile){
         /*If this methods fail, all more test case will be Ignored*/
         TestFile currentTestFile;
         String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
-        currentTestFile = this.loadTest( testFileName, profile.trim());
+        currentTestFile = this.loadTest( testFileName, profile.trim(), true);
         currentTestFile.setWebActions(new WebActions(browser,runeadless));
         this.testFileList.add(currentTestFile);
     }
@@ -46,16 +47,19 @@ public class TestExecutor {
         TestFile currentTestFile=this.getCurrentTest(testName);
 
         try {
-            this.printHeaderLogTest(currentTestFile);
+            if (currentTestFile.isFather())this.printHeaderLogTest(currentTestFile);
             for (int currentStep = 1; currentStep < currentTestFile.getSteps().length; currentStep++) {
                 currentTestFile.tranformInput(currentStep);
-                this.printStep(currentStep,currentTestFile);
+                this.printStep(currentStep,currentTestFile, testName);
                 currentKeywordStep =   currentTestFile.getKeyword(currentStep);
                 currentWebObjectStep = currentTestFile.getWebObjectInput(currentStep);
                 currentInputStep =     currentTestFile.getInput(currentStep);
                 currentOutputStep =    currentTestFile.getOuputs(currentStep);
 
                 switch (currentKeywordStep) {
+                    case "callto":
+                        this.executeCallTo(currentTestFile, currentStep);
+                        break;
                     case "sleep":
                         UtilActions.sleep(currentInputStep);
                         break;
@@ -66,14 +70,27 @@ public class TestExecutor {
                         currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
                         break;
                     default:
-                        TestValidator.assertAndWriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell",false, TestValidator.ERROR_LEVEL);
+                        TestValidator.assertAndWriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TestValidator.ERROR_LEVEL);
                 }
             }
         }catch (Exception e){
-            TestValidator.assertAndWriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.",false,TestValidator.WARNING_LEVEL);
-            TestValidator.assertAndWriteInConsole(e.toString(),true, TestValidator.ERROR_LEVEL);
+            TestValidator.assertAndWriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.",TestValidator.WARNING_LEVEL);
+            TestValidator.assertAndWriteInConsole(e.toString(), TestValidator.ERROR_LEVEL);
         }
 
+    }
+    
+    private void executeCallTo (TestFile fatherTestFile, int fatherTestStepNum){
+        String [] currentFatherInputStep;
+        currentFatherInputStep = fatherTestFile.getInput(fatherTestStepNum);
+        String callToFileName = currentFatherInputStep[0];
+        TestValidator.assertAndWriteInConsole("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************",TestValidator.WARNING_LEVEL);
+        TestFile callToTestFile = this.loadTest (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),false);
+        callToTestFile.setWebActions(fatherTestFile.getWebActions());
+        this.testFileList.add(callToTestFile);
+        this.runTest(callToFileName);
+        this.testFileList.remove(callToTestFile);
+        TestValidator.assertAndWriteInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************",TestValidator.WARNING_LEVEL);
     }
 
     private TestFile getCurrentTest (String testName){
@@ -84,31 +101,37 @@ public class TestExecutor {
         return currentTest;
     }
 
-    private TestFile loadTest (String testName, String profile){
-        TestFile currentTestFile = new TestFile(testName, profile);
+    private TestFile loadTest (String testName, String profile, boolean isFather){
+        TestFile currentTestFile = new TestFile(testName, profile, isFather);
         currentTestFile.setUrl(new LocationPathFinder(AppKeys.TEST_REPOSITORY_PATH,currentTestFile.getName()).getPath());
         ExcelReader.readFileTest(currentTestFile);
         return currentTestFile;
     }
 
-    private void printStep (int step, TestFile currentTestFile){
+    private void printStep (int step, TestFile currentTestFile, String testName){
         int excelRow = step+1;
         String keywordStep = currentTestFile.getKeyword(step);
         String [] webObjectStep = currentTestFile.getWebObjectInput(step);
-        TestValidator.assertAndWriteInConsole("Executing the excel row ["+excelRow+"]",true, TestValidator.STEP_LEVEL);
-        TestValidator.assertAndWriteInConsole("** Action: "+keywordStep,false, TestValidator.WARNING_LEVEL);
-        TestValidator.assertAndWriteInConsole("** WebObject: "+currentTestFile.getSteps()[step][AppKeys.OBJECT_ROW_NUMBER]+
-                " Method= " + ((webObjectStep !=null)?webObjectStep[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER]:null)+
-                "\tLocator= "+((webObjectStep !=null)?webObjectStep[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER]:null) ,false, TestValidator.NORMAL_LEVEL);
-        TestValidator.assertAndWriteInConsole("** Input: " + currentTestFile.getSteps()[step][AppKeys.INPUT_ROW_NUMBER],false, TestValidator.NORMAL_LEVEL);
-        TestValidator.assertAndWriteInConsole("** Output: " + currentTestFile.getSteps()[step][AppKeys.OUTPUT_ROW_NUMBER],false, TestValidator.NORMAL_LEVEL);
-        TestValidator.assertAndWriteInConsole("** Execution step: ",false, TestValidator.NORMAL_LEVEL);
+        String msgRow1 = "Executing "+testName+" row ["+excelRow+"]";
+        String msgRow2 = "** Action: "+keywordStep;
+        String msgRow3 = "** WebObject: "+currentTestFile.getSteps()[step][AppKeys.OBJECT_ROW_NUMBER]+ " Method= "+ ((webObjectStep !=null)?webObjectStep[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER]:null)+
+                            "\tLocator= "+((webObjectStep !=null)?webObjectStep[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER]:null);
+        String msgRow4 = "** Input: " + currentTestFile.getSteps()[step][AppKeys.INPUT_ROW_NUMBER];
+        String msgRow5 = "** Output: " + currentTestFile.getSteps()[step][AppKeys.OUTPUT_ROW_NUMBER];
+        String msgRow6 = "** Execution step: ";
+
+        TestValidator.assertAndWriteInConsole(msgRow1, TestValidator.STEP_LEVEL);
+        TestValidator.assertAndWriteInConsole(msgRow2, TestValidator.WARNING_LEVEL);
+        TestValidator.assertAndWriteInConsole( msgRow3,TestValidator.NORMAL_LEVEL);
+        TestValidator.assertAndWriteInConsole(msgRow4, TestValidator.NORMAL_LEVEL);
+        TestValidator.assertAndWriteInConsole(msgRow5, TestValidator.NORMAL_LEVEL);
+        TestValidator.assertAndWriteInConsole(msgRow6, TestValidator.NORMAL_LEVEL);
     }
 
     private void printHeaderLogTest (TestFile currentTestFile){
-        TestValidator.assertAndWriteInConsole("====================================================================",true, TestValidator.HEADER_TEXT_LEVEL);
-        TestValidator.assertAndWriteInConsole("                 AUTOMATION TEST STUDIO",false, TestValidator.WARNING_LEVEL);
-        TestValidator.assertAndWriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]",false, TestValidator.WARNING_LEVEL);
-        TestValidator.assertAndWriteInConsole("====================================================================",true, TestValidator.HEADER_TEXT_LEVEL);
+        TestValidator.assertAndWriteInConsole("====================================================================",TestValidator.HEADER_TEXT_LEVEL);
+        TestValidator.assertAndWriteInConsole("                 AUTOMATION TEST STUDIO", TestValidator.WARNING_LEVEL);
+        TestValidator.assertAndWriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]", TestValidator.WARNING_LEVEL);
+        TestValidator.assertAndWriteInConsole("====================================================================",TestValidator.HEADER_TEXT_LEVEL);
     }
 }

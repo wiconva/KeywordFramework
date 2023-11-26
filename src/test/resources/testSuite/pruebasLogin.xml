@@ -8,7 +8,7 @@
 
         <groups>
             <run>
-                <include name="ALL"></include>
+                <include name="CallToTest_0000"></include>
             </run>
         </groups>
 

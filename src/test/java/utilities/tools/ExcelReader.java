@@ -39,7 +39,7 @@ public class ExcelReader {
             }
 
         } catch (Exception e) {
-            TestValidator.assertAndWriteInConsole(e.toString(),false,TestValidator.WARNING_LEVEL);
+            TestValidator.assertAndWriteInConsole(e.toString(),TestValidator.WARNING_LEVEL);
         }
     }
 
@@ -70,7 +70,7 @@ public class ExcelReader {
             workbook.close();
             fis.close();
         }catch (Exception e){
-            TestValidator.assertAndWriteInConsole(e.toString(),true, TestValidator.ERROR_LEVEL);
+            TestValidator.assertAndWriteInConsole(e.toString(),TestValidator.ERROR_LEVEL);
         }
         return returnValues;
     }

@@ -23,13 +23,13 @@ public class WebActions {
     public void openBrowser (String objectWebStep[], String []inputStep, String [] outputSteps ){
         String url = inputStep[0];
         this.webDriver.get(url);
-        TestValidator.assertAndWriteInConsole(this.MSG_BROWSER_OPEN+ url,false, TestValidator.NORMAL_LEVEL);
+        TestValidator.assertAndWriteInConsole(this.MSG_BROWSER_OPEN+ url, TestValidator.NORMAL_LEVEL);
     }
     public void inputText (String objectWebStep[], String []inputStep, String [] outputSteps ){
         String text = inputStep[0];
         WebElement inputText = this.findWebElement(objectWebStep);
         inputText.sendKeys(text);
-        TestValidator.assertAndWriteInConsole(this.MSG_INPUT_TEXT,false, TestValidator.NORMAL_LEVEL);
+        TestValidator.assertAndWriteInConsole(this.MSG_INPUT_TEXT, TestValidator.NORMAL_LEVEL);
     }
     private WebElement findWebElement (String [] objectWebStep){
         String locatorMethod = objectWebStep[0].toLowerCase();

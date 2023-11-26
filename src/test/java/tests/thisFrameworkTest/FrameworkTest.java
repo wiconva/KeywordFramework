@@ -35,4 +35,8 @@ public class FrameworkTest extends TestExecutor {
     //This test fail because exist more that one file with the seem name.
     @Test(groups = {"ALL","LoginPage","LogintestError_0007"})
     public void LogintestError_0007() {runTest("LogintestError_0007");}
+
+    //This test fail because exist more that one file with the seem name.
+    @Test(groups = {"ALL","LoginPage","CallToTest_0000"})
+    public void CallToTest_0000() {runTest("CallToTest_0000");}
 }

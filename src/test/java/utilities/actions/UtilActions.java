@@ -9,9 +9,9 @@ public class UtilActions {
         int time = (int)Double.parseDouble(input[0])*1000;
         try {
             Thread.sleep(time);
-            TestValidator.assertAndWriteInConsole(MSG_TIME_COMPLETE,false, TestValidator.NORMAL_LEVEL);
+            TestValidator.assertAndWriteInConsole(MSG_TIME_COMPLETE, TestValidator.NORMAL_LEVEL);
         } catch (InterruptedException e) {
-            TestValidator.assertAndWriteInConsole(e.toString(),false, TestValidator.WARNING_LEVEL);
+            TestValidator.assertAndWriteInConsole(e.toString(), TestValidator.WARNING_LEVEL);
         }
     }
 }
