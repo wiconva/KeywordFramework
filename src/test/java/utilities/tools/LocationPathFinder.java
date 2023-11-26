@@ -3,8 +3,8 @@ package utilities.tools;
 import java.io.File;
 
 public class LocationPathFinder {
-    private final String ERROR_0= TestValidator.MSG_STEP_ERROR+ "Not was possible find the file \"";
-    private final String ERROR_1= TestValidator.MSG_STEP_ERROR+ "Exist more that one File with the same name \"";
+    private final String ERROR_0= Logger.MSG_STEP_ERROR+ "Not was possible find the file \"";
+    private final String ERROR_1= Logger.MSG_STEP_ERROR+ "Exist more that one File with the same name \"";
 
     private String targetDirectory;
     private String targetFileName;

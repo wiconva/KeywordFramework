@@ -1,10 +1,9 @@
 package utilities.tools;
-import org.testng.Assert;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TestValidator {
+public class Logger {
     public static final String  MSG_STEP_ERROR = "[!!!ERROR!!!]";
     private static final String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
 
@@ -24,10 +23,9 @@ public class TestValidator {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void assertAndWriteInConsole(String msg, int logLevel){
+    public static void WriteInConsole(String msg, int logLevel){
         msg = giveFormatAtMsg(msg,logLevel);
         System.out.println(msg);
-        if(msg.contains(MSG_STEP_ERROR) || logLevel == ERROR_LEVEL) Assert.fail(msg);
     }
 
     private static String getTime(){
@@ -44,11 +42,10 @@ public class TestValidator {
         if(msg.contains("**")){
             msg = msg.replace("\n","\n\t\t\t  ");
             msg = "\t"+msg;
-        }else {
+        }else if (! msg.contains("====")){
             msg = msg.replace("\n","\n\t\t\t  ");
             msg = "\t\t- "+msg;
         }
-
 
         switch (logLevel){
             case STEP_LEVEL:
@@ -67,8 +64,6 @@ public class TestValidator {
                 msg = ANSI_BLUE+msg+ANSI_RESET;
                 break;
         }
-
         return msg;
     }
-
 }

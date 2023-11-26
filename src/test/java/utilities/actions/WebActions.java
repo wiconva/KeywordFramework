@@ -4,9 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utilities.driver.MyChromeDriver;
-import utilities.tools.TestValidator;
+import utilities.tools.Logger;
 
 public class WebActions {
+    private final String MSG_OPENING_BROWSER = "Opening the brower";
     private final String MSG_BROWSER_OPEN = "The browser is Open in: ";
     private final String MSG_INPUT_TEXT = "The text was input";
     public final String CHROME_DRIVER="chrome";
@@ -21,15 +22,16 @@ public class WebActions {
     }
 
     public void openBrowser (String objectWebStep[], String []inputStep, String [] outputSteps ){
+        Logger.WriteInConsole(this.MSG_OPENING_BROWSER, Logger.NORMAL_LEVEL);
         String url = inputStep[0];
         this.webDriver.get(url);
-        TestValidator.assertAndWriteInConsole(this.MSG_BROWSER_OPEN+ url, TestValidator.NORMAL_LEVEL);
+        Logger.WriteInConsole(this.MSG_BROWSER_OPEN+ url, Logger.NORMAL_LEVEL);
     }
     public void inputText (String objectWebStep[], String []inputStep, String [] outputSteps ){
         String text = inputStep[0];
         WebElement inputText = this.findWebElement(objectWebStep);
         inputText.sendKeys(text);
-        TestValidator.assertAndWriteInConsole(this.MSG_INPUT_TEXT, TestValidator.NORMAL_LEVEL);
+        Logger.WriteInConsole(this.MSG_INPUT_TEXT, Logger.NORMAL_LEVEL);
     }
     private WebElement findWebElement (String [] objectWebStep){
         String locatorMethod = objectWebStep[0].toLowerCase();

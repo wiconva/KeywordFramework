@@ -4,7 +4,7 @@ import utilities.actions.WebActions;
 import utilities.keys.AppKeys;
 import utilities.tools.ExcelReader;
 import utilities.tools.LocationPathFinder;
-import utilities.tools.TestValidator;
+import utilities.tools.Logger;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -26,7 +26,10 @@ public class TestFile {
        this.name = name;
        this. testProfileName = profile;
        this. isFather = isFather;
+       this.setUrl(new LocationPathFinder(AppKeys.TEST_REPOSITORY_PATH,this.getName()).getPath());
+       ExcelReader.readFileTest(this);
     }
+
 
     public String getKeyword(int currentStep){
         String currenStepKeyword = this.getSteps()[currentStep][AppKeys.KEYWORD_ROW_NUMBER].toLowerCase();
@@ -39,8 +42,8 @@ public class TestFile {
         if (currentStepWebObject != null){
             transformWebObjectInput= ExcelReader.readObjectRespositoryFile(currentStepWebObject.split(AppKeys.INPUT_DELIMITER)[0],
                     currentStepWebObject.split(AppKeys.INPUT_DELIMITER)[AppKeys.OBJECT_ROW_NUMBER]);
-            if(transformWebObjectInput[0] == null) transformWebObjectInput[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER]= TestValidator.MSG_STEP_ERROR+ " The method locator is not define, check the Object repository file";
-            if(transformWebObjectInput[1] == null) transformWebObjectInput[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER]= TestValidator.MSG_STEP_ERROR+ " The Object locator is not define, check the Object repository file";
+            if(transformWebObjectInput[0] == null) transformWebObjectInput[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER]= Logger.MSG_STEP_ERROR+ " The method locator is not define, check the Object repository file";
+            if(transformWebObjectInput[1] == null) transformWebObjectInput[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER]= Logger.MSG_STEP_ERROR+ " The Object locator is not define, check the Object repository file";
             return  transformWebObjectInput;
         }
         return null;
@@ -77,11 +80,11 @@ public class TestFile {
                     varNotFormatInput = s.replace("${","").replace("}","");
                     if(!varNotFormatInput.equals("")){
                         String propertieRaded;
-                        propertieRaded = ((getProfileKey(varNotFormatInput) == null))?outputs.get(varNotFormatInput): getProfileKey(varNotFormatInput);
-                        if(!(propertieRaded == null)){
+                        propertieRaded = ((getProfileKey(varNotFormatInput) != null))? getProfileKey(varNotFormatInput):outputs.get(varNotFormatInput);
+                        if((propertieRaded != null)){
                             this.steps[stepNum][2]= this.steps[stepNum][2].replace(s,propertieRaded);
                         }else{
-                            this.steps[stepNum][2]= this.steps[stepNum][2].replace(s,"${"+ TestValidator.MSG_STEP_ERROR+" The value for: "+s+" input is not define. Check profile.properties, suite xml profile parameter or output in test excel file. }");
+                            this.steps[stepNum][2]= this.steps[stepNum][2].replace(s,"${"+ Logger.MSG_STEP_ERROR+" The value for: "+s+" input is not define. Check profile.properties, suite xml profile parameter or output in test excel file. }");
                         }
                     }
                 }
@@ -97,7 +100,8 @@ public class TestFile {
             properties.load(new FileReader(locationPathFinder.getPath()));
             return properties.getProperty(this.testProfileName+"."+ key);
         } catch (IOException e) {
-            TestValidator.assertAndWriteInConsole(e.toString(),TestValidator.ERROR_LEVEL);
+            Logger.WriteInConsole(e.toString(), Logger.ERROR_LEVEL);
+            TestExecutor.validateTest("",Logger.ERROR_LEVEL);
         }
         return null;
     }

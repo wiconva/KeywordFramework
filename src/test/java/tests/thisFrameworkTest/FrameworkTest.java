@@ -29,14 +29,14 @@ public class FrameworkTest extends TestExecutor {
     public void LogintestError_0005() {runTest("LogintestError_00051");}
 
     //This test fail because not exist one test file excell whit the name of test function.
-    @Test(groups = {"ALL","LoginPage","LogintestError_0000"})
+    @Test(groups = {"ALL","LoginPage","LogintestError_0006"})
     public void LogintestError_00061() {runTest("LogintestError_0006");}
 
     //This test fail because exist more that one file with the seem name.
     @Test(groups = {"ALL","LoginPage","LogintestError_0007"})
     public void LogintestError_0007() {runTest("LogintestError_0007");}
 
-    //This test fail because exist more that one file with the seem name.
+    //This test have many callto.
     @Test(groups = {"ALL","LoginPage","CallToTest_0000"})
     public void CallToTest_0000() {runTest("CallToTest_0000");}
 }
