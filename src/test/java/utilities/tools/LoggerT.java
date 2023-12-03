@@ -3,7 +3,7 @@ package utilities.tools;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Logger {
+public class LoggerT {
     public static final String  MSG_STEP_ERROR = "[!!!ERROR!!!]";
     private static final String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
 

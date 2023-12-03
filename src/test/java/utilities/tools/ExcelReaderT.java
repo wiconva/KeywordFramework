@@ -2,18 +2,22 @@ package utilities.tools;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import utilities.framework.TestExecutor;
+import utilities.framework.TestRunner;
 import utilities.framework.TestFile;
 import utilities.keys.AppKeys;
 
 import java.io.FileInputStream;
 
 
-public class ExcelReader {
+public class ExcelReaderT {
+
+    public static void readDataTest(){
+
+    }
 
     public static void readFileTest (TestFile test){
         try {
-            if(!test.getUrl().contains(Logger.MSG_STEP_ERROR)) {
+            if(!test.getUrl().contains(LoggerT.MSG_STEP_ERROR)) {
                 final String excelDataType = "STRING";
                 FileInputStream fis = new FileInputStream(test.getUrl());
                 XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -39,7 +43,7 @@ public class ExcelReader {
             }
 
         } catch (Exception e) {
-            Logger.WriteInConsole(e.toString(), Logger.WARNING_LEVEL);
+            LoggerT.WriteInConsole(e.toString(), LoggerT.WARNING_LEVEL);
         }
     }
 
@@ -48,9 +52,9 @@ public class ExcelReader {
         int methodCellNumber = 1;
         int locatorCellNumber = 2;
 
-        String absolutePath = new LocationPathFinder(AppKeys.TEST_REPOSITORY_PATH, fileName+ AppKeys.TEST_FILE_EXTENSION).getPath();
+        String absolutePath = new LocationPathFinderT(AppKeys.TEST_REPOSITORY_PATH, fileName+ AppKeys.TEST_FILE_EXTENSION).getPath();
         String [] returnValues = new String [inputRespositorySize];
-        if(absolutePath.contains(Logger.MSG_STEP_ERROR)){
+        if(absolutePath.contains(LoggerT.MSG_STEP_ERROR)){
            returnValues[AppKeys.METHOD_LOCATOR_ARRAY_NUMBER] = absolutePath;
            returnValues[AppKeys.OBJET_LOCATOR_ARRAY_NUMBER] = absolutePath;
            return returnValues;
@@ -70,8 +74,8 @@ public class ExcelReader {
             workbook.close();
             fis.close();
         }catch (Exception e){
-            Logger.WriteInConsole(e.toString(), Logger.ERROR_LEVEL);
-            TestExecutor.validateTest("",Logger.ERROR_LEVEL);
+            LoggerT.WriteInConsole(e.toString(), LoggerT.ERROR_LEVEL);
+            TestRunner.validateTest("", LoggerT.ERROR_LEVEL);
         }
         return returnValues;
     }
