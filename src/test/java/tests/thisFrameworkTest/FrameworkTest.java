@@ -28,7 +28,7 @@ public class FrameworkTest extends TestRunner {
 
     //This test fail because the arguments of the runTest function not match with the name of test function.
     @Test(groups = {"Framework","LoginPage","LogintestError_0005"})
-    public void LogintestError_0005() {runTest("LogintestError_0005");}
+    public void LogintestError_0005() {runTest("LogintestError_00051");}
 
     //This test fail because not exist one test file excell whit the name of test function.
     @Test(groups = {"Framework","LoginPage","LogintestError_0006"})
@@ -38,7 +38,7 @@ public class FrameworkTest extends TestRunner {
     @Test(groups = {"Framework","LoginPage","LogintestError_0007"})
     public void LogintestError_0007() {runTest("LogintestError_0007");}
 
-    //This test have many callto.
+    //This is ok, the test have many callto.
     @Test(groups = {"Framework","LoginPage","CallToTest_0000"})
     public void CallToTest_0000() {runTest("CallToTest_0000");}
 }

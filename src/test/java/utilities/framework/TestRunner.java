@@ -60,7 +60,7 @@ public class TestRunner {
                 }
             }
             if(currentTestFile.isFather()){
-                LoggerT.WriteInConsole("======================================= Finishing the test ============================================",LoggerT.HEADER_TEXT_LEVEL);
+                LoggerT.WriteInConsole("================================================== Finishing the test =====================================================",LoggerT.HEADER_TEXT_LEVEL);
             }
 
         }catch (Exception e){

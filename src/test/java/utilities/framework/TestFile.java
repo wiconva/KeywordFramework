@@ -42,6 +42,7 @@ public class TestFile {
         Hashtable<String, String > testData = new Hashtable<>();
         if(dataFileName!="" && dataFileName!=null){
           testData.put("var1","value1");
+          //TODO.
         }
         return testData;
     }
