@@ -1,10 +1,10 @@
-package utilities.tools;
+package core.tools;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import utilities.framework.TestRunner;
-import utilities.framework.TestFile;
-import utilities.keys.AppKeys;
+import core.framework.TestRunner;
+import core.framework.TestFile;
+import core.keys.AppKeys;
 
 import java.io.FileInputStream;
 

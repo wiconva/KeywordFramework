@@ -1,7 +1,7 @@
 package tests.loginTest;
 
 import org.testng.annotations.Test;
-import utilities.framework.TestRunner;
+import core.framework.TestRunner;
 
 public class LoginTest extends TestRunner {
 

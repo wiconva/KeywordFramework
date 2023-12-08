@@ -1,8 +1,8 @@
-package utilities.tools;
+package core.tools;
 
-import utilities.framework.TestRunner;
-import utilities.framework.TestFile;
-import utilities.keys.AppKeys;
+import core.framework.TestRunner;
+import core.framework.TestFile;
+import core.keys.AppKeys;
 
 public class TestRunnerPrinterT {
 

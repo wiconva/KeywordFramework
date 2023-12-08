@@ -1,8 +1,8 @@
-package utilities.driver;
+package core.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utilities.keys.AppKeys;
+import core.keys.AppKeys;
 
 public class MyChromeDriver {
     WebDriver webDriver;

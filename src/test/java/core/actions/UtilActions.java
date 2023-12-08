@@ -1,7 +1,7 @@
-package utilities.actions;
+package core.actions;
 
-import utilities.framework.TestRunner;
-import utilities.tools.LoggerT;
+import core.framework.TestRunner;
+import core.tools.LoggerT;
 
 public class UtilActions {
     private static final String MSG_TIME_COMPLETE = "The time for sleep is completed";

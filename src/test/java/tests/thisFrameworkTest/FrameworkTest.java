@@ -1,7 +1,7 @@
 package tests.thisFrameworkTest;
 
 import org.testng.annotations.*;
-import utilities.framework.TestRunner;
+import core.framework.TestRunner;
 
 public class FrameworkTest extends TestRunner {
     public final String DATA_FILE_NAME = "LoginTestData";

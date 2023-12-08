@@ -1,4 +1,4 @@
-package utilities.keys;
+package core.keys;
 
 public final class AppKeys {
     public final static String CHROME_DRIVER_PROPERTIE = "webdriver.chrome.driver";

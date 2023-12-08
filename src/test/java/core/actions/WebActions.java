@@ -1,10 +1,10 @@
-package utilities.actions;
+package core.actions;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import utilities.driver.MyChromeDriver;
-import utilities.tools.LoggerT;
+import core.driver.MyChromeDriver;
+import core.tools.LoggerT;
 
 public class WebActions {
     private final String MSG_OPENING_BROWSER = "Opening the brower";

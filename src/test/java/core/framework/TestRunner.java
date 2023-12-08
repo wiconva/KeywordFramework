@@ -1,11 +1,11 @@
-package utilities.framework;
+package core.framework;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import utilities.actions.UtilActions;
-import utilities.actions.WebActions;
-import utilities.keys.AppKeys;
-import utilities.tools.*;
+import core.actions.UtilActions;
+import core.actions.WebActions;
+import core.keys.AppKeys;
+import core.tools.*;
 
 import java.util.ArrayList;
 import java.util.List;

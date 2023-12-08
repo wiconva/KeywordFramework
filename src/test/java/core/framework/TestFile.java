@@ -1,10 +1,10 @@
-package utilities.framework;
+package core.framework;
 
-import utilities.actions.WebActions;
-import utilities.keys.AppKeys;
-import utilities.tools.ExcelReaderT;
-import utilities.tools.LocationPathFinderT;
-import utilities.tools.LoggerT;
+import core.actions.WebActions;
+import core.keys.AppKeys;
+import core.tools.ExcelReaderT;
+import core.tools.LocationPathFinderT;
+import core.tools.LoggerT;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
