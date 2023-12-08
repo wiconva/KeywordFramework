@@ -8,7 +8,7 @@
 
         <groups>
             <run>
-                <include name="Framework"></include>
+                <include name="ALL"></include>
 
             </run>
         </groups>

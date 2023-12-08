@@ -60,7 +60,7 @@ public class TestRunner {
                 }
             }
             if(currentTestFile.isFather()){
-                LoggerT.WriteInConsole("================================================== Finishing the test =====================================================",LoggerT.HEADER_TEXT_LEVEL);
+                LoggerT.WriteInConsole("================================================== Test finished sucessfull =====================================================",LoggerT.HEADER_TEXT_LEVEL);
             }
 
         }catch (Exception e){
@@ -69,6 +69,11 @@ public class TestRunner {
             TestRunner.validateTest("", LoggerT.ERROR_LEVEL);
         }
 
+    }
+
+    public void executeTest (){
+        StackTraceElement [] ste = Thread.currentThread().getStackTrace();
+        runTest(ste[2].getMethodName());
     }
     
     private void executeCallTo (TestFile fatherTestFile, int fatherTestStepNum){
