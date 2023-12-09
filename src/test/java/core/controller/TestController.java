@@ -7,7 +7,6 @@ import core.actions.UtilActions;
 import core.actions.WebActions;
 import core.keys.AppKeys;
 import core.tools.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +41,8 @@ public class TestController {
                 currentInputStep =     currentTestFile.getInput(currentStep);
                 currentOutputStep =    currentTestFile.getOuputs(currentStep);
 
+                TLogger.WriteInConsole("Test Loaded",TLogger.NORMAL_LEVEL);
+                TLogger.WriteInConsole("Executing the keyword action",TLogger.NORMAL_LEVEL);
                 switch (currentKeywordStep) {
                     case "callto":
                         this.executeCallTo(currentTestFile, currentStep);
@@ -59,10 +60,9 @@ public class TestController {
                         TLogger.WriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
                         TestController.validateTest("", TLogger.ERROR_LEVEL);
                 }
+                TLogger.WriteInConsole("The keyword action was executed",TLogger.NORMAL_LEVEL);
             }
-            if(currentTestFile.isFather()){
-                TLogger.WriteInConsole("================================================== Test finished sucessfull =====================================================", TLogger.HEADER_TEXT_LEVEL);
-            }
+            if(currentTestFile.isFather()){TTestRunnerPrinter.printFooterTest();}
 
         }catch (Exception e){
             TLogger.WriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.", TLogger.WARNING_LEVEL);
