@@ -42,7 +42,6 @@ public class TExcelReader {
     public static void readFileTest (TestFile test){
         try {
             if(!test.getUrl().contains(TLogger.MSG_STEP_ERROR)) {
-                final String excelDataType = "STRING";
                 FileInputStream fis = new FileInputStream(test.getUrl());
                 XSSFWorkbook workbook = new XSSFWorkbook(fis);
                 XSSFSheet sheet = workbook.getSheetAt(AppKeys.TEST_SHEET_NUMBER);
@@ -54,8 +53,12 @@ public class TExcelReader {
                     for(int j=0; j< test.getCELLS(); j++){
                         try{
                             XSSFCell cell = sheet.getRow(i).getCell(j);
-                            dataFileInput [i][j] = (cell.getCellType().toString().contains(excelDataType))?
-                                    cell.getStringCellValue():Double.toString(cell.getNumericCellValue());
+                            String cellType = cell.getCellType().toString();
+                            if(cellType.equals("STRING")){
+                                dataFileInput [i][j] = cell.getStringCellValue();
+                            } else if (cellType.equals("NUMERIC")) {
+                                dataFileInput [i][j] = Double.toString(cell.getNumericCellValue());
+                            }
                         }catch  (NullPointerException e){
                             dataFileInput [i][j] =null;
                         }

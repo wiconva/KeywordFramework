@@ -12,18 +12,11 @@ import java.util.List;
 
 
 public class TestController {
+    //List for all test in execution.
     private List <TestFile> testFileList = new ArrayList<>();
+    private String browser;
+    private boolean runheadless;
 
-    @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser","runheadless","profile"})
-    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runeadless, String profile) throws NoSuchFieldException {
-        /*If this methods fail, all more test case will be Ignored*/
-        TestFile currentTestFile;
-        String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
-        currentTestFile = new TestFile ( testFileName, profile.trim(), true, r.getTestClass().getName());
-        currentTestFile.setWebActions(new WebActions(browser,runeadless));
-        this.testFileList.add(currentTestFile);
-    }
 
     public void runTest (String testName){
         String currentKeywordStep;
@@ -44,14 +37,17 @@ public class TestController {
                 TLogger.WriteInConsole("Test Loaded",TLogger.NORMAL_LEVEL);
                 TLogger.WriteInConsole("Executing the keyword action",TLogger.NORMAL_LEVEL);
                 switch (currentKeywordStep) {
+                    case "loadwebdriver":
+                        currentTestFile.setWebActions(new WebActions(this.browser,this.runheadless));
+                        break;
                     case "callto":
                         this.executeCallTo(currentTestFile, currentStep);
                         break;
+                    case "browserget":
+                        currentTestFile.getWebActions().browserGet(currentWebObjectStep, currentInputStep, currentOutputStep);
+                        break;
                     case "sleep":
                         UtilActions.sleep(currentInputStep);
-                        break;
-                    case "openbrowser":
-                        currentTestFile.getWebActions().openBrowser(currentWebObjectStep, currentInputStep, currentOutputStep);
                         break;
                     case "inputtext":
                         currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
@@ -65,11 +61,23 @@ public class TestController {
             if(currentTestFile.isFather()){TTestRunnerPrinter.printFooterTest();}
 
         }catch (Exception e){
-            TLogger.WriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.", TLogger.WARNING_LEVEL);
+            TLogger.WriteInConsole("Sometings go wrong reading the test file. Check function name in test class.", TLogger.WARNING_LEVEL);
             TLogger.WriteInConsole(e.toString(), TLogger.ERROR_LEVEL);
-            TestController.validateTest("", TLogger.ERROR_LEVEL);
+            TestController.validateTest("falló", TLogger.ERROR_LEVEL);
         }
 
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    @Parameters({"browser","runheadless","profile"})
+    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runheadless, String profile) throws NoSuchFieldException {
+        /*If this methods fail, all more test case will be Ignored*/
+        this.browser = browser;
+        this.runheadless = runheadless;
+        TestFile currentTestFile;
+        String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
+        currentTestFile = new TestFile ( testFileName, profile.trim(), true, r.getTestClass().getName());
+        this.testFileList.add(currentTestFile);
     }
 
     public void executeTest (){
@@ -112,7 +120,7 @@ public class TestController {
         for(TestFile currentTest: testFileList){
             if(currentTest.getName().equals(testNameResultWithExtension)){
                 deleteTest = currentTest;
-                currentTest.getWebActions().closeBrowser();
+                if(currentTest.getWebActions()!= null)currentTest.getWebActions().closeBrowser();
             }
         }
         if(deleteTest!=null)testFileList.remove(deleteTest);

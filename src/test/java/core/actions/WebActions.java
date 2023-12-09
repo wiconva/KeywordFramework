@@ -25,7 +25,7 @@ public class WebActions {
         }
     }
 
-    public void openBrowser (String objectWebStep[], String []inputStep, String [] outputSteps ){
+    public void browserGet(String objectWebStep[], String []inputStep, String [] outputSteps ){
         TLogger.WriteInConsole(this.MSG_OPENING_BROWSER, TLogger.NORMAL_LEVEL);
         String url = inputStep[0];
         this.webDriver.get(url);
