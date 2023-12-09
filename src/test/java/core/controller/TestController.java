@@ -1,4 +1,5 @@
-package core.framework;
+package core.controller;
+import core.testFile.TestFile;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TestRunner {
+public class TestController {
     private List <TestFile> testFileList = new ArrayList<>();
 
     @BeforeMethod(alwaysRun = true)
@@ -32,10 +33,10 @@ public class TestRunner {
         String [] currentOutputStep;
         TestFile currentTestFile=this.getTestFromList(testName);
         try {
-            if (currentTestFile.isFather()) TestRunnerPrinterT.printHeaderLogTest(currentTestFile);
+            if (currentTestFile.isFather()) TTestRunnerPrinter.printHeaderLogTest(currentTestFile);
             for (int currentStep = 1; currentStep < currentTestFile.getSteps().length; currentStep++) {
                 currentTestFile.tranformInput(currentStep);
-                TestRunnerPrinterT.printStep(currentStep,currentTestFile, testName);
+                TTestRunnerPrinter.printStep(currentStep,currentTestFile, testName);
                 currentKeywordStep =   currentTestFile.getKeyword(currentStep);
                 currentWebObjectStep = currentTestFile.getWebObjectInput(currentStep);
                 currentInputStep =     currentTestFile.getInput(currentStep);
@@ -55,18 +56,18 @@ public class TestRunner {
                         currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
                         break;
                     default:
-                        LoggerT.WriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", LoggerT.ERROR_LEVEL);
-                        TestRunner.validateTest("", LoggerT.ERROR_LEVEL);
+                        TLogger.WriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
+                        TestController.validateTest("", TLogger.ERROR_LEVEL);
                 }
             }
             if(currentTestFile.isFather()){
-                LoggerT.WriteInConsole("================================================== Test finished sucessfull =====================================================",LoggerT.HEADER_TEXT_LEVEL);
+                TLogger.WriteInConsole("================================================== Test finished sucessfull =====================================================", TLogger.HEADER_TEXT_LEVEL);
             }
 
         }catch (Exception e){
-            LoggerT.WriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.", LoggerT.WARNING_LEVEL);
-            LoggerT.WriteInConsole(e.toString(), LoggerT.ERROR_LEVEL);
-            TestRunner.validateTest("", LoggerT.ERROR_LEVEL);
+            TLogger.WriteInConsole("Sometings go wrong reading the test file. Check function name or runTes(ParamName) in Class test.", TLogger.WARNING_LEVEL);
+            TLogger.WriteInConsole(e.toString(), TLogger.ERROR_LEVEL);
+            TestController.validateTest("", TLogger.ERROR_LEVEL);
         }
 
     }
@@ -80,17 +81,19 @@ public class TestRunner {
         String [] currentFatherInputStep;
         currentFatherInputStep = fatherTestFile.getInput(fatherTestStepNum);
         String callToFileName = currentFatherInputStep[0];
-        LoggerT.WriteInConsole("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************", LoggerT.WARNING_LEVEL);
-        TestFile callToTestFile = new TestFile (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),false,fatherTestFile.getClassName());
+        TLogger.WriteInConsole("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
+        TestFile callToTestFile = new TestFile (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),
+                            false,fatherTestFile.getClassName(),
+                                    (fatherTestFile.isFather())?fatherTestFile.getName():fatherTestFile.getPrincipalTestName());
         callToTestFile.setWebActions(fatherTestFile.getWebActions());
         this.testFileList.add(callToTestFile);
         this.runTest(callToFileName);
         this.testFileList.remove(callToTestFile);
-        LoggerT.WriteInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", LoggerT.WARNING_LEVEL);
+        TLogger.WriteInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
     }
 
     public static void validateTest (String msg, int logLevel){
-        if(msg.contains(LoggerT.MSG_STEP_ERROR) || logLevel == LoggerT.ERROR_LEVEL) Assert.fail(msg);
+        if(msg.contains(TLogger.MSG_STEP_ERROR) || logLevel == TLogger.ERROR_LEVEL) Assert.fail(msg);
     }
 
     private TestFile getTestFromList(String testName){

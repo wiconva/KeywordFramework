@@ -1,7 +1,7 @@
 package core.actions;
 
-import core.framework.TestRunner;
-import core.tools.LoggerT;
+import core.controller.TestController;
+import core.tools.TLogger;
 
 public class UtilActions {
     private static final String MSG_TIME_COMPLETE = "The time for sleep is completed";
@@ -10,12 +10,12 @@ public class UtilActions {
     public static void sleep (String [] input) {
         int time = (int)Double.parseDouble(input[0])*1000;
         try {
-            LoggerT.WriteInConsole(MSG_BEGIN_TIME_TO_SLEEP, LoggerT.NORMAL_LEVEL);
+            TLogger.WriteInConsole(MSG_BEGIN_TIME_TO_SLEEP, TLogger.NORMAL_LEVEL);
             Thread.sleep(time);
-            LoggerT.WriteInConsole(MSG_TIME_COMPLETE, LoggerT.NORMAL_LEVEL);
+            TLogger.WriteInConsole(MSG_TIME_COMPLETE, TLogger.NORMAL_LEVEL);
         } catch (InterruptedException e) {
-            LoggerT.WriteInConsole(e.toString(), LoggerT.ERROR_LEVEL);
-            TestRunner.validateTest("Impossible sleep the curent Thread", LoggerT.ERROR_LEVEL);
+            TLogger.WriteInConsole(e.toString(), TLogger.ERROR_LEVEL);
+            TestController.validateTest("Impossible sleep the curent Thread", TLogger.ERROR_LEVEL);
         }
     }
 }

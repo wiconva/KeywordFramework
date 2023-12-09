@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import core.driver.MyChromeDriver;
-import core.tools.LoggerT;
+import core.tools.TLogger;
 
 public class WebActions {
     private final String MSG_OPENING_BROWSER = "Opening the brower";
@@ -26,20 +26,20 @@ public class WebActions {
     }
 
     public void openBrowser (String objectWebStep[], String []inputStep, String [] outputSteps ){
-        LoggerT.WriteInConsole(this.MSG_OPENING_BROWSER, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_OPENING_BROWSER, TLogger.NORMAL_LEVEL);
         String url = inputStep[0];
         this.webDriver.get(url);
-        LoggerT.WriteInConsole(this.MSG_BROWSER_OPEN+ url, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_BROWSER_OPEN+ url, TLogger.NORMAL_LEVEL);
     }
     public void inputText (String objectWebStep[], String []inputStep, String [] outputSteps ){
-        LoggerT.WriteInConsole(this.MSG_INPUT_TEXT_BEGIN, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_INPUT_TEXT_BEGIN, TLogger.NORMAL_LEVEL);
         String text = inputStep[0];
         WebElement inputText = this.findWebElement(objectWebStep);
         inputText.sendKeys(text);
-        LoggerT.WriteInConsole(this.MSG_INPUT_TEXT, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_INPUT_TEXT, TLogger.NORMAL_LEVEL);
     }
     private WebElement findWebElement (String [] objectWebStep){
-        LoggerT.WriteInConsole(this.MSG_FIND_ELEMENT, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_FIND_ELEMENT, TLogger.NORMAL_LEVEL);
         String locatorMethod = objectWebStep[0].toLowerCase();
         String locator = objectWebStep[1];
         switch (locatorMethod){
@@ -53,8 +53,8 @@ public class WebActions {
     }
 
     public void closeBrowser(){
-        LoggerT.WriteInConsole(this.MSG_OPEN_WD, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_OPEN_WD, TLogger.NORMAL_LEVEL);
         this.webDriver.quit();
-        LoggerT.WriteInConsole(this.MSG_CLOSE_WD, LoggerT.NORMAL_LEVEL);
+        TLogger.WriteInConsole(this.MSG_CLOSE_WD, TLogger.NORMAL_LEVEL);
     }
 }

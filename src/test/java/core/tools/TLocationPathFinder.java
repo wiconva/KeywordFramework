@@ -2,16 +2,16 @@ package core.tools;
 
 import java.io.File;
 
-public class LocationPathFinderT {
-    private final String ERROR_0= LoggerT.MSG_STEP_ERROR+ "Not was possible find the file \"";
-    private final String ERROR_1= LoggerT.MSG_STEP_ERROR+ "Exist more that one File with the same name \"";
+public class TLocationPathFinder {
+    private final String ERROR_0= TLogger.MSG_STEP_ERROR+ "Not was possible find the file \"";
+    private final String ERROR_1= TLogger.MSG_STEP_ERROR+ "Exist more that one File with the same name \"";
 
     private String targetDirectory;
     private String targetFileName;
     private String matchPath;
     private int matchCount=0;
 
-    public LocationPathFinderT(String directory, String fileName){
+    public TLocationPathFinder(String directory, String fileName){
         this.targetDirectory = directory;
         this.targetFileName = fileName;
     }

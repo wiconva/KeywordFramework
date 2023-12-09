@@ -1,10 +1,11 @@
 package tests.thisFrameworkTest;
 
 import org.testng.annotations.*;
-import core.framework.TestRunner;
+import core.controller.TestController;
 
-public class FrameworkTest extends TestRunner {
-    public final String DATA_FILE_NAME = "LoginTestData";
+public class FrameworkTest extends TestController {
+    //This field is read usign java reflexion.
+    public final String DATA_FILE_NAME = "FrameworkTestData";
 
     //this test is ok.
     @Test(groups = {"Framework","Logintest_0000"})
@@ -28,7 +29,7 @@ public class FrameworkTest extends TestRunner {
 
     //This test fail because not exist one test file excell whit the name of test function.
     @Test(groups = {"Framework","LoginPage","LogintestError_0006"})
-    public void LogintestError_00061() {executeTest();}
+    public void LogintestError_0006() {executeTest();}
 
     //This test fail because exist more that one file with the seem name.
     @Test(groups = {"Framework","LoginPage","LogintestError_0007"})

@@ -1,9 +1,9 @@
 package tests.loginTest;
 
 import org.testng.annotations.Test;
-import core.framework.TestRunner;
+import core.controller.TestController;
 
-public class LoginTest extends TestRunner {
+public class LoginTest extends TestController {
 
     //this test is ok.
     @Test(groups = {"ALL","LoginPage","Logintest_0000"})
