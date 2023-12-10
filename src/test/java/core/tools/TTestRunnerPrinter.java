@@ -8,10 +8,7 @@ public class TTestRunnerPrinter {
 
     public static void printFooterTest(){
         TLogger.WriteInConsole("Finish all Steps",TLogger.STEP_LEVEL);
-        TLogger.WriteInConsole("=================================================================================================================================", TLogger.HEADER_TEXT_LEVEL);
-        TLogger.WriteInConsole("================================================== Test finished sucessfull =====================================================", TLogger.HEADER_TEXT_LEVEL);
-        TLogger.WriteInConsole("=================================================================================================================================", TLogger.HEADER_TEXT_LEVEL);
-
+        TLogger.WriteInConsole("============================================== Test finished sucessfull ==================================================", TLogger.HEADER_TEXT_LEVEL);
     }
 
     public static void printStep (int step, TestFile currentTestFile, String testName){
@@ -43,7 +40,6 @@ public class TTestRunnerPrinter {
     public static void printHeaderLogTest (TestFile currentTestFile){
         TLogger.WriteInConsole("==========================================================================================================================", TLogger.HEADER_TEXT_LEVEL);
         TLogger.WriteInConsole("                 AUTOMATION TEST STUDIO", TLogger.WARNING_LEVEL);
-        TLogger.WriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]", TLogger.WARNING_LEVEL);
-        TLogger.WriteInConsole("==========================================================================================================================", TLogger.HEADER_TEXT_LEVEL);
+        TLogger.WriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]\n", TLogger.WARNING_LEVEL);
     }
 }

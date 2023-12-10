@@ -35,7 +35,7 @@ public class TExcelReader {
                 }
             }
         }catch (Exception e){
-            TLogger.WriteInConsole("Can't open the data file, check that exist or file name",TLogger.WARNING_LEVEL);
+            TLogger.WriteInConsole(TLogger.MSG_STEP_ERROR+"Can't open the data file, check that exist or file name",TLogger.WARNING_LEVEL);
         }
     }
 

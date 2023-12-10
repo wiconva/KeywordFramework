@@ -12,6 +12,7 @@ import java.util.List;
 
 
 public class TestController {
+
     //List for all test in execution.
     private List <TestFile> testFileList = new ArrayList<>();
     private String browser;
@@ -38,7 +39,9 @@ public class TestController {
                 TLogger.WriteInConsole("Executing the keyword action",TLogger.NORMAL_LEVEL);
                 switch (currentKeywordStep) {
                     case "loadwebdriver":
+                        TLogger.WriteInConsole("Starting web driver",TLogger.NORMAL_LEVEL);
                         currentTestFile.setWebActions(new WebActions(this.browser,this.runheadless));
+                        TLogger.WriteInConsole("Driver Started",TLogger.NORMAL_LEVEL);
                         break;
                     case "callto":
                         this.executeCallTo(currentTestFile, currentStep);
@@ -53,7 +56,7 @@ public class TestController {
                         currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
                         break;
                     default:
-                        TLogger.WriteInConsole("The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
+                        TLogger.WriteInConsole(TLogger.MSG_STEP_ERROR+"The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
                         TestController.validateTest("", TLogger.ERROR_LEVEL);
                 }
                 TLogger.WriteInConsole("The keyword action was executed",TLogger.NORMAL_LEVEL);
@@ -61,9 +64,9 @@ public class TestController {
             if(currentTestFile.isFather()){TTestRunnerPrinter.printFooterTest();}
 
         }catch (Exception e){
-            TLogger.WriteInConsole("Sometings go wrong reading the test file. Check function name in test class.", TLogger.WARNING_LEVEL);
+            TLogger.WriteInConsole(TLogger.MSG_STEP_ERROR+ "Sometings go wrong reading the test file. Check function name in test class.", TLogger.WARNING_LEVEL);
             TLogger.WriteInConsole(e.toString(), TLogger.ERROR_LEVEL);
-            TestController.validateTest("falló", TLogger.ERROR_LEVEL);
+            TestController.validateTest(e.getMessage(), TLogger.ERROR_LEVEL);
         }
 
     }
