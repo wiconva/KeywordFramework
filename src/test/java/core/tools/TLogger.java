@@ -36,6 +36,7 @@ public class TLogger {
 
     private static String giveFormatAtMsg (String msg, int logLevel){
 
+        msg = (logLevel==ERROR_LEVEL)?MSG_STEP_ERROR+msg:msg;
         logLevel = (msg.contains(MSG_STEP_ERROR))?ERROR_LEVEL:logLevel;
 
     //Format for a father test.

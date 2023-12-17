@@ -1,4 +1,5 @@
 package core.controller;
+import core.actions.VerifyActions;
 import core.testFile.TestFile;
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -52,12 +53,18 @@ public class TestController {
                     case "sleep":
                         UtilActions.sleep(currentInputStep);
                         break;
+                    case "gettext":
+                        currentTestFile.getWebActions().getText(currentWebObjectStep, currentInputStep, currentOutputStep, currentTestFile.getOutputsList());
+                        break;
                     case "inputtext":
                         currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
                         break;
+                    case "verify":
+                        VerifyActions.verify(currentWebObjectStep, currentInputStep, currentOutputStep);
+                        break;
                     default:
                         TLogger.WriteInConsole(TLogger.MSG_STEP_ERROR+"The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
-                        TestController.validateTest("", TLogger.ERROR_LEVEL);
+                        TestController.validateTest(TLogger.ERROR_LEVEL);
                 }
                 TLogger.WriteInConsole("The keyword action was executed",TLogger.NORMAL_LEVEL);
             }
@@ -71,17 +78,7 @@ public class TestController {
 
     }
 
-    @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser","runheadless","profile"})
-    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runheadless, String profile) throws NoSuchFieldException {
-        /*If this methods fail, all more test case will be Ignored*/
-        this.browser = browser;
-        this.runheadless = runheadless;
-        TestFile currentTestFile;
-        String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
-        currentTestFile = new TestFile ( testFileName, profile.trim(), true, r.getTestClass().getName());
-        this.testFileList.add(currentTestFile);
-    }
+
 
     public void executeTest (){
         StackTraceElement [] ste = Thread.currentThread().getStackTrace();
@@ -97,22 +94,37 @@ public class TestController {
                             false,fatherTestFile.getClassName(),
                                     (fatherTestFile.isFather())?fatherTestFile.getName():fatherTestFile.getPrincipalTestName());
         callToTestFile.setWebActions(fatherTestFile.getWebActions());
+        callToTestFile.setOutputsList(fatherTestFile.getOutputsList());
         this.testFileList.add(callToTestFile);
         this.runTest(callToFileName);
         this.testFileList.remove(callToTestFile);
         TLogger.WriteInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
     }
-
-    public static void validateTest (String msg, int logLevel){
-        if(msg.contains(TLogger.MSG_STEP_ERROR) || logLevel == TLogger.ERROR_LEVEL) Assert.fail(msg);
-    }
-
     private TestFile getTestFromList(String testName){
         TestFile currentTest=null;
         for(TestFile t:testFileList){
             if(t.getName().equals(testName+ AppKeys.TEST_FILE_EXTENSION))currentTest = t;
         }
         return currentTest;
+    }
+
+    public static void validateTest (String msg, int logLevel){
+        if(msg.contains(TLogger.MSG_STEP_ERROR) || logLevel == TLogger.ERROR_LEVEL) Assert.fail(msg);
+    }
+    public static void validateTest (int logLevel){
+        validateTest("",logLevel);
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    @Parameters({"browser","runheadless","profile"})
+    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runheadless, String profile) throws NoSuchFieldException {
+        /*If this methods fail, all more test case will be Ignored*/
+        this.browser = browser;
+        this.runheadless = runheadless;
+        TestFile currentTestFile;
+        String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
+        currentTestFile = new TestFile ( testFileName, profile.trim(), true, r.getTestClass().getName());
+        this.testFileList.add(currentTestFile);
     }
 
     @AfterMethod(alwaysRun = true)

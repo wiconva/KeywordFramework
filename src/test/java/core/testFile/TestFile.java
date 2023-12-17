@@ -22,8 +22,8 @@ public class TestFile {
     private String [][] steps;
     private final int CELLS = 4;
     private String testProfileName;
-    public Hashtable <String,String> outputs = new Hashtable<>();
     private WebActions webActions;
+    public Hashtable <String,String> outputsList = new Hashtable<>();
     private Hashtable<String, String> data = new Hashtable<>();
     private String className;
     private String dataFileName;
@@ -102,16 +102,14 @@ public class TestFile {
             if(matcher.find()){
                 result = inputStep.split(regex);
                 for(String s: result){
-                    varInput = varInput.replace(s,"-");
+                    if(s!="")varInput = varInput.replace(s,"-");
                 }
                 varTranformated = varInput.split("-");
                 for (String s:varTranformated){
                     String varReaded="";
-
                     if(!s.equals("")){
-
-                        if(outputs.get(s)!= null && outputs.get(s)!=""){
-                           varReaded = outputs.get(s);
+                        if(outputsList.get(s)!= null && outputsList.get(s)!=""){
+                           varReaded = outputsList.get(s);
                            this.steps[stepNum][2]= this.steps[stepNum][2].replace(s,varReaded);
                         }else if (getProfileKey(s) != null && getProfileKey(s)!= "" ){
                             varReaded = getProfileKey(s);
@@ -170,6 +168,7 @@ public class TestFile {
     public String getUrl() {return url;}
     public void setUrl(String url){this.url =url;}
     public int getCELLS(){return CELLS;}
-    public void setOutput (String key, String value){this.outputs.put(key,value);}
+    public void setOutputsList (Hashtable <String, String> outputsList){this.outputsList = outputsList;}
+    public Hashtable<String, String> getOutputsList() {return outputsList;}
     public String getName() {return this.name;}
 }
