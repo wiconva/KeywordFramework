@@ -18,6 +18,7 @@ public class TestController {
     private List <TestFile> testFileList = new ArrayList<>();
     private String browser;
     private boolean runheadless;
+    private String profileDir;
 
 
     public void runTest (String testName){
@@ -40,9 +41,7 @@ public class TestController {
                 TLogger.WriteInConsole("Executing the keyword action",TLogger.NORMAL_LEVEL);
                 switch (currentKeywordStep) {
                     case "loadwebdriver":
-                        TLogger.WriteInConsole("Starting web driver",TLogger.NORMAL_LEVEL);
                         currentTestFile.setWebActions(new WebActions(this.browser,this.runheadless));
-                        TLogger.WriteInConsole("Driver Started",TLogger.NORMAL_LEVEL);
                         break;
                     case "callto":
                         this.executeCallTo(currentTestFile, currentStep);
@@ -90,9 +89,9 @@ public class TestController {
         currentFatherInputStep = fatherTestFile.getInput(fatherTestStepNum);
         String callToFileName = currentFatherInputStep[0];
         TLogger.WriteInConsole("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
-        TestFile callToTestFile = new TestFile (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),
-                            false,fatherTestFile.getClassName(),
-                                    (fatherTestFile.isFather())?fatherTestFile.getName():fatherTestFile.getPrincipalTestName());
+        TestFile callToTestFile =   new TestFile (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),this.profileDir,
+                            false,fatherTestFile.getClassName(),(fatherTestFile.isFather())?fatherTestFile.getName()
+                                    :fatherTestFile.getPrincipalTestName());
         callToTestFile.setWebActions(fatherTestFile.getWebActions());
         callToTestFile.setOutputsList(fatherTestFile.getOutputsList());
         this.testFileList.add(callToTestFile);
@@ -116,14 +115,15 @@ public class TestController {
     }
 
     @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser","runheadless","profile"})
-    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runheadless, String profile) throws NoSuchFieldException {
+    @Parameters({"browser","runheadless","profile","profileDir"})
+    public synchronized void beforeMehtods(ITestResult r, String browser, boolean runheadless, String profile, String profileDir) throws NoSuchFieldException {
         /*If this methods fail, all more test case will be Ignored*/
         this.browser = browser;
         this.runheadless = runheadless;
+        this.profileDir = profileDir;
         TestFile currentTestFile;
         String testFileName = r.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
-        currentTestFile = new TestFile ( testFileName, profile.trim(), true, r.getTestClass().getName());
+        currentTestFile = new TestFile ( testFileName, profile.trim(), profileDir, true, r.getTestClass().getName());
         this.testFileList.add(currentTestFile);
     }
 

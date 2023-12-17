@@ -28,14 +28,16 @@ public class TestFile {
     private String className;
     private String dataFileName;
     private String principalTestName ="";
+    private String profileDir;
 
 
    //Constructors principal test file.
-    public TestFile(String name, String profile, boolean isFather, String className){
+    public TestFile(String name, String profile, String profileDir, boolean isFather, String className){
        this.name = name;
        this. testProfileName = profile;
        this. isFather = isFather;
        this.className = className;
+       this.profileDir = profileDir;
        this.setUrl(new TLocationPathFinder(AppKeys.TEST_REPOSITORY_PATH,this.getName()).getPath());
        this.dataFileName = this.getDataFileName(className);
        this.loadData();
@@ -43,11 +45,12 @@ public class TestFile {
     }
 
     //Constructor callto test file.
-    public TestFile(String name, String profile, boolean isFather, String className, String principalTestName){
+    public TestFile(String name, String profile, String profileDir, boolean isFather, String className, String principalTestName){
         this.name = name;
         this. testProfileName = profile;
         this. isFather = isFather;
         this.className = className;
+        this.profileDir = profileDir;
         this.setUrl(new TLocationPathFinder(AppKeys.TEST_REPOSITORY_PATH,this.getName()).getPath());
         this.dataFileName = this.getDataFileName(className);
         this.principalTestName = principalTestName;
@@ -133,7 +136,7 @@ public class TestFile {
             Class <?> fatherClassReference = Class.forName(testClassName);
             Constructor constructor = fatherClassReference.getDeclaredConstructor();
             Object classInstance = constructor.newInstance();
-            Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_FIELD);
+            Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_FIELD_NAME);
             dataFileName = (String)field.get(classInstance);
         } catch (Exception e) {
             TLogger.WriteInConsole("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
@@ -142,7 +145,7 @@ public class TestFile {
     }
 
     private String getProfileKey(String key){
-        TLocationPathFinder locationPathFinder = new TLocationPathFinder(AppKeys.PROFILE_TARGET_DIR_PATH,AppKeys.PROFILE_FILE_NAME);
+        TLocationPathFinder locationPathFinder = new TLocationPathFinder(AppKeys.PROFILE_TARGET_DIR_PATH+this.profileDir,AppKeys.PROFILE_FILE_NAME);
         try {
             Properties properties = new Properties();
             properties.load(new FileReader(locationPathFinder.getPath()));

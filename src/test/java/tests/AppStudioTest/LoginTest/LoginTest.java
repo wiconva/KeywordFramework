@@ -13,4 +13,13 @@ public class LoginTest extends TestController {
 
     @Test(groups = {"LoginPage","T0001","All"})
     public void T0001_VerifyLoginAreaTitle() {executeTest();}
+
+    @Test(groups = {"LoginPage","T0002","All"})
+    public void T0002_VerifyUserInputLabel() {executeTest();}
+
+    @Test(groups = {"LoginPage","T0003","All"})
+    public void T0003_VerifyPassInputLabel() {executeTest();}
+
+    @Test(groups = {"LoginPage","T0004","All"})
+    public void T0004_VerifyLoginButtonLabel() {executeTest();}
 }

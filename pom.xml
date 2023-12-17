@@ -42,7 +42,7 @@
                 <version>2.12.4</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testSuite/frameworkTestSuite/FramewrokTest.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testSuite/appStudioTestSuite/LoginPageTestSuite.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>

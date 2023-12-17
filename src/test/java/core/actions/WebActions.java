@@ -12,11 +12,13 @@ public class WebActions {
     private WebDriver webDriver;
 
     public WebActions (String driverName, boolean headless){
+        TLogger.WriteInConsole("Starting web driver",TLogger.NORMAL_LEVEL);
         switch (driverName){
             case CHROME_DRIVER:
                 this.webDriver = new MyChromeDriver(headless).getWebDriver();
                 break;
         }
+        TLogger.WriteInConsole("Driver Started",TLogger.NORMAL_LEVEL);
     }
 
     public void browserGet(String objectWebStep[], String []inputStep, String [] outputSteps ){
@@ -52,9 +54,9 @@ public class WebActions {
             TLogger.WriteInConsole("Getting the text from web element",TLogger.NORMAL_LEVEL);
             String textValue ="";
             WebElement we = findWebElement(currentWebObjectStep);
-            textValue = we.getText();
+            textValue = we.getText().trim();
             outputsList.put(currentOutputStep[0],textValue);
-            TLogger.WriteInConsole("The text value finded is: "+textValue,TLogger.NORMAL_LEVEL);
+            TLogger.WriteInConsole("The text value finded is: ["+textValue+"]",TLogger.NORMAL_LEVEL);
         }catch (Exception e){
             TLogger.WriteInConsole("Not was possible get the text, check the attribute of Webelement", TLogger.ERROR_LEVEL);
             TLogger.WriteInConsole(e.getMessage(), TLogger.ERROR_LEVEL);

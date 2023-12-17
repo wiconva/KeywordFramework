@@ -9,8 +9,8 @@ public final class AppKeys {
     public final static String VARIABLE_INPUT_FORMAT_REGEX = "\\$\\{\\w*\\}";
     public final static String TEST_REPOSITORY_PATH = "C:/TestRespository/";
     public final static String PROFILE_FILE_NAME ="testProfile.properties";
-    public final static String DATA_FILE_FIELD = "DATA_FILE_NAME";
-    public final static String PROFILE_TARGET_DIR_PATH = AppKeys.USER_DIR+"/src";
+    public final static String DATA_FILE_FIELD_NAME = "DATA_FILE_NAME";
+    public final static String PROFILE_TARGET_DIR_PATH = AppKeys.USER_DIR+"/src/test/resources/testProfiles/";
     public final static int TEST_SHEET_NUMBER = 0;
     public final static int METHOD_LOCATOR_ARRAY_NUMBER = 0;
     public final static int OBJET_LOCATOR_ARRAY_NUMBER = 1;
