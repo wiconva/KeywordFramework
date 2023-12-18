@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="AppStudio Testing" verbose="1" parallel="true" thread-count="1">
+    <test name="Login page test with Chrome driver">
+        <parameter name="browser" value="chrome"></parameter>
+        <parameter name="runheadless" value="true"></parameter>
+        <parameter name="profileDir" value="AppStudioProfile"></parameter>
+        <parameter name="profile" value="LocalHost"></parameter>
+        <groups>
+            <run>
+                <include name="All"></include>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.AppStudioTest.LoginTest.LoginTest"/>
+        </classes>
+    </test>
+    <test name="Login page test with FireFox driver ">
+        <parameter name="browser" value="firefox"></parameter>
+        <parameter name="runheadless" value="true"></parameter>
+        <parameter name="profileDir" value="AppStudioProfile"></parameter>
+        <parameter name="profile" value="LocalHost"></parameter>
+        <groups>
+            <run>
+                <include name="All"></include>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.AppStudioTest.LoginTest.LoginTest"/>
+        </classes>
+    </test>
+    <test name="Login page test with Edge driver ">
+        <parameter name="browser" value="edge"></parameter>
+        <parameter name="runheadless" value="true"></parameter>
+        <parameter name="profileDir" value="AppStudioProfile"></parameter>
+        <parameter name="profile" value="LocalHost"></parameter>
+        <groups>
+            <run>
+                <include name="All"></include>
+            </run>
+        </groups>
+        <classes>
+            <class name="tests.AppStudioTest.LoginTest.LoginTest"/>
+        </classes>
+    </test>
+</suite>

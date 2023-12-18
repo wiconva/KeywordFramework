@@ -136,7 +136,7 @@ public class TestFile {
             Class <?> fatherClassReference = Class.forName(testClassName);
             Constructor constructor = fatherClassReference.getDeclaredConstructor();
             Object classInstance = constructor.newInstance();
-            Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_FIELD_NAME);
+            Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_CLASS_FIELD_NAME);
             dataFileName = (String)field.get(classInstance);
         } catch (Exception e) {
             TLogger.WriteInConsole("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);

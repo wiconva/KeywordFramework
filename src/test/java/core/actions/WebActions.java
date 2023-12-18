@@ -1,21 +1,36 @@
 package core.actions;
 
 import core.controller.TestController;
+import core.webDriver.MyEdgeDriver;
+import core.webDriver.MyFireFoxDriver;
 import org.openqa.selenium.*;
-import core.driver.MyChromeDriver;
+import core.webDriver.MyChromeDriver;
 import core.tools.TLogger;
 
 import java.util.Hashtable;
 
 public class WebActions {
     public final String CHROME_DRIVER="chrome";
+    public final String FIREFOX_DRIVER="firefox";
+    public final String EDGE_DRIVER="edge";
     private WebDriver webDriver;
 
     public WebActions (String driverName, boolean headless){
-        TLogger.WriteInConsole("Starting web driver",TLogger.NORMAL_LEVEL);
+        driverName = driverName.trim().toLowerCase();
+        TLogger.WriteInConsole("Starting web driver ["+driverName+"]",TLogger.NORMAL_LEVEL);
         switch (driverName){
             case CHROME_DRIVER:
                 this.webDriver = new MyChromeDriver(headless).getWebDriver();
+                break;
+            case FIREFOX_DRIVER:
+                this.webDriver = new MyFireFoxDriver(headless).getWebDriver();
+                break;
+            case EDGE_DRIVER:
+                this.webDriver = new MyEdgeDriver(headless).getWebDriver();
+                break;
+            default:
+                TLogger.WriteInConsole("The web driver:["+driverName+"] is not supported",TLogger.ERROR_LEVEL );
+                TestController.validateTest(TLogger.ERROR_LEVEL);
                 break;
         }
         TLogger.WriteInConsole("Driver Started",TLogger.NORMAL_LEVEL);
