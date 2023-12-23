@@ -25,7 +25,7 @@ public class TTestRunnerPrinter {
 
         TLogger.WriteInConsole(msgRow1, TLogger.STEP_LEVEL);
         TestController.validateTest(msgRow1, TLogger.STEP_LEVEL);
-        TLogger.WriteInConsole(msgRow2, TLogger.WARNING_LEVEL);
+        TLogger.WriteInConsole(msgRow2, TLogger.HEADER_TEXT_LEVEL);
         TestController.validateTest(msgRow2, TLogger.WARNING_LEVEL);
         TLogger.WriteInConsole( msgRow3, TLogger.NORMAL_LEVEL);
         TestController.validateTest( msgRow3, TLogger.NORMAL_LEVEL);
@@ -33,12 +33,12 @@ public class TTestRunnerPrinter {
         TestController.validateTest( msgRow4, TLogger.NORMAL_LEVEL);
         TLogger.WriteInConsole(msgRow5, TLogger.NORMAL_LEVEL);
         TestController.validateTest( msgRow5, TLogger.NORMAL_LEVEL);
-        TLogger.WriteInConsole(msgRow6, TLogger.NORMAL_LEVEL);
+        TLogger.WriteInConsole(msgRow6, TLogger.WARNING_LEVEL);
         TestController.validateTest( msgRow6, TLogger.NORMAL_LEVEL);
     }
 
     public static void printHeaderLogTest (TestFile currentTestFile){
-        TLogger.WriteInConsole("==========================================================================================================================", TLogger.HEADER_TEXT_LEVEL);
+        TLogger.WriteInConsole("==================================================== TEST STARTED =============================================================", TLogger.HEADER_TEXT_LEVEL);
         TLogger.WriteInConsole("                 AUTOMATION TEST STUDIO", TLogger.WARNING_LEVEL);
         TLogger.WriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]\n", TLogger.WARNING_LEVEL);
     }

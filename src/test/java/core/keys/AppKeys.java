@@ -1,13 +1,10 @@
 package core.keys;
 
 public final class AppKeys {
-    public final static String LOCATION_CHROME_DRIVER = "/src/test/resources/webdriver/chromedriver.exe";
-    public final static String LOCATION_FIREFOX_DRIVER = "/src/test/resources/webdriver/geckodriver.exe";
-    public final static String LOCATION_EDGE_DRIVER = "/src/test/resources/webdriver/msedgedriver.exe";
     public final static String USER_DIR = System.getProperty("user.dir");
     public final static String TEST_FILE_EXTENSION = ".xlsx";
     public final static String INPUT_DELIMITER = "\\|\\|";
-    public final static String VARIABLE_INPUT_FORMAT_REGEX = "\\$\\{\\w*\\}";
+    public final static String VARIABLE_INPUT_FORMAT_REGEX = "\\$\\{(\\w|_)*\\}";
     public final static String TEST_REPOSITORY_PATH = "C:/TestRespository/";
     public final static String PROFILE_FILE_NAME ="testProfile.properties";
     public final static String PROFILE_TARGET_DIR_PATH = AppKeys.USER_DIR+"/src/test/resources/testProfiles/";

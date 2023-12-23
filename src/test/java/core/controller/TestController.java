@@ -77,8 +77,6 @@ public class TestController {
 
     }
 
-
-
     public void executeTest (){
         StackTraceElement [] ste = Thread.currentThread().getStackTrace();
         runTest(ste[2].getMethodName());
@@ -99,6 +97,7 @@ public class TestController {
         this.testFileList.remove(callToTestFile);
         TLogger.WriteInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
     }
+
     private TestFile getTestFromList(String testName){
         TestFile currentTest=null;
         for(TestFile t:testFileList){
@@ -129,6 +128,7 @@ public class TestController {
 
     @AfterMethod(alwaysRun = true)
     public synchronized void afterMethods (ITestResult resultTest){
+        /*If this methods fail, all more test case will be Ignored*/
         String testNameResultWithExtension;
         testNameResultWithExtension = resultTest.getMethod().getMethodName()+ AppKeys.TEST_FILE_EXTENSION;
         TestFile deleteTest = null;
