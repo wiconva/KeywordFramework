@@ -7,8 +7,8 @@ import core.keys.AppKeys;
 public class TTestRunnerPrinter {
 
     public static void printFooterTest(){
-        TLogger.WriteInConsole("Finish all Steps",TLogger.STEP_LEVEL);
-        TLogger.WriteInConsole("============================================== Test finished sucessfull ==================================================", TLogger.HEADER_TEXT_LEVEL);
+        TLogger.writeInConsole("Finish all Steps",TLogger.STEP_LEVEL);
+        TLogger.writeInConsole("============================================== Test finished sucessfull ==================================================", TLogger.HEADER_TEXT_LEVEL);
     }
 
     public static void printStep (int step, TestFile currentTestFile, String testName){
@@ -23,23 +23,23 @@ public class TTestRunnerPrinter {
         String msgRow5 = "** Output: " + currentTestFile.getSteps()[step][AppKeys.OUTPUT_ROW_NUMBER];
         String msgRow6 = "** Execution step: ";
 
-        TLogger.WriteInConsole(msgRow1, TLogger.STEP_LEVEL);
+        TLogger.writeInConsole(msgRow1, TLogger.STEP_LEVEL);
         TestController.validateTest(msgRow1, TLogger.STEP_LEVEL);
-        TLogger.WriteInConsole(msgRow2, TLogger.HEADER_TEXT_LEVEL);
+        TLogger.writeInConsole(msgRow2, TLogger.HEADER_TEXT_LEVEL);
         TestController.validateTest(msgRow2, TLogger.WARNING_LEVEL);
-        TLogger.WriteInConsole( msgRow3, TLogger.NORMAL_LEVEL);
+        TLogger.writeInConsole( msgRow3, TLogger.NORMAL_LEVEL);
         TestController.validateTest( msgRow3, TLogger.NORMAL_LEVEL);
-        TLogger.WriteInConsole(msgRow4, TLogger.NORMAL_LEVEL);
+        TLogger.writeInConsole(msgRow4, TLogger.NORMAL_LEVEL);
         TestController.validateTest( msgRow4, TLogger.NORMAL_LEVEL);
-        TLogger.WriteInConsole(msgRow5, TLogger.NORMAL_LEVEL);
+        TLogger.writeInConsole(msgRow5, TLogger.NORMAL_LEVEL);
         TestController.validateTest( msgRow5, TLogger.NORMAL_LEVEL);
-        TLogger.WriteInConsole(msgRow6, TLogger.WARNING_LEVEL);
+        TLogger.writeInConsole(msgRow6, TLogger.WARNING_LEVEL);
         TestController.validateTest( msgRow6, TLogger.NORMAL_LEVEL);
     }
 
     public static void printHeaderLogTest (TestFile currentTestFile){
-        TLogger.WriteInConsole("==================================================== TEST STARTED =============================================================", TLogger.HEADER_TEXT_LEVEL);
-        TLogger.WriteInConsole("                 AUTOMATION TEST STUDIO", TLogger.WARNING_LEVEL);
-        TLogger.WriteInConsole(" Test location: ["+ currentTestFile.getUrl()+"]\n", TLogger.WARNING_LEVEL);
+        TLogger.writeInConsole("==================================================== TEST STARTED =============================================================", TLogger.HEADER_TEXT_LEVEL);
+        TLogger.writeInConsole("                 AUTOMATION TEST STUDIO", TLogger.WARNING_LEVEL);
+        TLogger.writeInConsole(" Test location: ["+ currentTestFile.getUrl()+"]\n", TLogger.WARNING_LEVEL);
     }
 }

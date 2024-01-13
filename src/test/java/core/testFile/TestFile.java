@@ -139,7 +139,7 @@ public class TestFile {
             Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_CLASS_FIELD_NAME);
             dataFileName = (String)field.get(classInstance);
         } catch (Exception e) {
-            TLogger.WriteInConsole("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
+            TLogger.writeInConsole("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
         }
         return dataFileName;
     }
@@ -151,7 +151,7 @@ public class TestFile {
             properties.load(new FileReader(locationPathFinder.getPath()));
             return properties.getProperty(this.testProfileName+"."+ key);
         } catch (IOException e) {
-            TLogger.WriteInConsole(e.toString(), TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole(e.toString(), TLogger.ERROR_LEVEL);
             TestController.validateTest("", TLogger.ERROR_LEVEL);
         }
         return null;

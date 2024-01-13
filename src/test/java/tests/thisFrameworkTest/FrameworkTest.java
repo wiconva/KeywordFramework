@@ -47,4 +47,8 @@ public class FrameworkTest extends TestController {
     @Test(groups = {"FrameworkTest","T0009_VarInputNotDefineInDataFileErrorTest"})
     public void T0009_VarInputNotDefineInDataFileErrorTest() {executeTest();}
 
+    //This test fail because cant execute the keword, attemps test.
+    @Test(groups = {"FrameworkTest","T0010_NotExecutionActionWithAttempsError"})
+    public void T0010_NotExecutionActionWithAttempsError() {executeTest();}
+
 }

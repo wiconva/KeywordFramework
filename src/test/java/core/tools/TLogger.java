@@ -23,7 +23,7 @@ public class TLogger {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void WriteInConsole(String msg, int logLevel){
+    public static void writeInConsole(String msg, int logLevel){
         msg = giveFormatAtMsg(msg,logLevel);
         System.out.println(msg);
     }

@@ -17,7 +17,7 @@ public class WebActions {
 
     public WebActions (String driverName, boolean headless){
         driverName = driverName.trim().toLowerCase();
-        TLogger.WriteInConsole("Starting web driver ["+driverName+"]",TLogger.NORMAL_LEVEL);
+        TLogger.writeInConsole("Starting web driver ["+driverName+"]",TLogger.NORMAL_LEVEL);
         switch (driverName){
             case CHROME_DRIVER:
                 this.webDriver = new MyChromeDriver(headless).getWebDriver();
@@ -29,59 +29,63 @@ public class WebActions {
                 this.webDriver = new MyEdgeDriver(headless).getWebDriver();
                 break;
             default:
-                TLogger.WriteInConsole("The web driver:["+driverName+"] is not supported",TLogger.ERROR_LEVEL );
+                TLogger.writeInConsole("The web driver:["+driverName+"] is not supported",TLogger.ERROR_LEVEL );
                 TestController.validateTest(TLogger.ERROR_LEVEL);
                 break;
         }
-        TLogger.WriteInConsole("Driver Started",TLogger.NORMAL_LEVEL);
+        TLogger.writeInConsole("Driver Started",TLogger.NORMAL_LEVEL);
     }
 
-    public void browserGet(String objectWebStep[], String []inputStep, String [] outputSteps ){
+    public boolean browserGet(String objectWebStep[], String []inputStep, String [] outputSteps ){
         try{
-            TLogger.WriteInConsole("Opening the brower", TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("Opening the brower", TLogger.NORMAL_LEVEL);
             String url = inputStep[0];
             this.webDriver.get(url);
-            TLogger.WriteInConsole("The browser is Open in: "+ url, TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("The browser is Open in: "+ url, TLogger.NORMAL_LEVEL);
+            return true;
         }catch(Exception e){
-            TLogger.WriteInConsole("The URL resource is not disponible, check the URL",TLogger.ERROR_LEVEL);
-            TLogger.WriteInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
-            TestController.validateTest(TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole("The URL resource is not disponible, check the URL",TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
+            return false;
         }
     }
 
-    public void inputText (String objectWebStep[], String []inputStep, String [] outputSteps ){
+    public boolean inputText (String objectWebStep[], String []inputStep, String [] outputSteps ){
         try{
-            TLogger.WriteInConsole("Begin insert Text in the Web Element gived", TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("Begin insert Text in the Web Element gived", TLogger.NORMAL_LEVEL);
             String text = inputStep[0];
             WebElement inputText = this.findWebElement(objectWebStep);
             inputText.sendKeys(text);
-            TLogger.WriteInConsole("The text was insert in the input", TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("The text was insert in the input", TLogger.NORMAL_LEVEL);
+            return true;
         }catch (Exception e){
-            TLogger.WriteInConsole("Not was possible insert text in web element, check that Web Element is enable for action",TLogger.ERROR_LEVEL);
-            TLogger.WriteInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
-            TestController.validateTest(TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole("Not was possible insert text in web element, check that Web Element is enable for action",TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
+            return false;
         }
 
     }
 
-    public void getText(String[] currentWebObjectStep, String[] currentInputStep, String[] currentOutputStep, Hashtable<String, String> outputsList) {
+    public boolean getText(String[] currentWebObjectStep, String[] currentInputStep, String[] currentOutputStep, Hashtable<String, String> outputsList) {
         try{
-            TLogger.WriteInConsole("Getting the text from web element",TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("Getting the text from web element",TLogger.NORMAL_LEVEL);
             String textValue ="";
             WebElement we = findWebElement(currentWebObjectStep);
             textValue = we.getText().trim();
             outputsList.put(currentOutputStep[0],textValue);
-            TLogger.WriteInConsole("The text value finded is: ["+textValue+"]",TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("The text value finded is: ["+textValue+"]",TLogger.NORMAL_LEVEL);
+            return true;
         }catch (Exception e){
-            TLogger.WriteInConsole("Not was possible get the text, check the attribute of Webelement", TLogger.ERROR_LEVEL);
-            TLogger.WriteInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
-            TestController.validateTest(TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole("Not was possible get the text, check the attribute of Webelement", TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
+            return false;
         }
+
     }
 
     private WebElement findWebElement (String [] objectWebStep) {
         try {
-            TLogger.WriteInConsole("Searching the Web Element in the Web page", TLogger.NORMAL_LEVEL);
+            TLogger.writeInConsole("Searching the Web Element in the Web page", TLogger.NORMAL_LEVEL);
             String locatorMethod = objectWebStep[0].toLowerCase();
             String locator = objectWebStep[1];
             switch (locatorMethod) {
@@ -93,13 +97,11 @@ public class WebActions {
                     return null;
             }
         } catch (Exception e) {
-            TLogger.WriteInConsole("The web element is not in the DOM, check tne xpath is ok, or if loaded the web element ", TLogger.ERROR_LEVEL);
-            TLogger.WriteInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
-            TestController.validateTest(TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole("The web element is not in the DOM, check tne xpath is ok, or if loaded the web element ", TLogger.ERROR_LEVEL);
+            TLogger.writeInConsole(e.getMessage(), TLogger.ERROR_LEVEL);
             return null;
         }
     }
-
 
     public void closeBrowser(){
         this.webDriver.quit();
