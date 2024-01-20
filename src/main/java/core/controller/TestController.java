@@ -8,7 +8,12 @@ import core.actions.UtilActions;
 import core.actions.WebActions;
 import core.keys.AppKeys;
 import core.tools.*;
+
+
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,8 +42,8 @@ public class TestController {
                 currentInputStep =     currentTestFile.getInput(currentStep);
                 currentOutputStep =    currentTestFile.getOuputs(currentStep);
 
-                TLogger.writeInConsole("Test Loaded",TLogger.NORMAL_LEVEL);
-                TLogger.writeInConsole("Executing the keyword action",TLogger.NORMAL_LEVEL);
+                TLogger.trackeTest("Test Loaded",TLogger.NORMAL_LEVEL);
+                TLogger.trackeTest("Executing the keyword action",TLogger.NORMAL_LEVEL);
 
                 int currentExecuteAttemps =1;
                 boolean correctExecution = true;
@@ -66,26 +71,26 @@ public class TestController {
                             VerifyActions.verify(currentWebObjectStep, currentInputStep, currentOutputStep);
                             break;
                         default:
-                            TLogger.writeInConsole(TLogger.MSG_STEP_ERROR+"The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
+                            TLogger.trackeTest(TLogger.MSG_STEP_ERROR+"The specific Keyword \""+currentKeywordStep+"\" does not exists, check the test file and verify the action cell", TLogger.ERROR_LEVEL);
                             TestController.validateTest(TLogger.ERROR_LEVEL);
                     }
                     if(correctExecution == false){
-                        TLogger.writeInConsole("Was execute and failed the attemps "+currentExecuteAttemps, TLogger.WARNING_LEVEL);
+                        TLogger.trackeTest("Was execute and failed the attemps "+currentExecuteAttemps, TLogger.WARNING_LEVEL);
                         currentExecuteAttemps++;
                         Thread.sleep(AppKeys.TIME_TO_NEXT_EXECUTION_TRY_OF_KEYWORD_FAIL*1000);
                         if (currentExecuteAttemps > AppKeys.EXECUTION_TRY_OF_KEYWORD_FAIL)
                         {
-                            TLogger.writeInConsole("Not was possible execute the Keyword action ",TLogger.ERROR_LEVEL);
-                            TLogger.writeInConsole("Exeding attemps to execute action ",TLogger.ERROR_LEVEL);
+                            TLogger.trackeTest("Not was possible execute the Keyword action ",TLogger.ERROR_LEVEL);
+                            TLogger.trackeTest("Exeding attemps to execute action ",TLogger.ERROR_LEVEL);
                             validateTest("Exeding attemps to execute action ",TLogger.ERROR_LEVEL);}
                     }
                 } while(correctExecution == false);
-                TLogger.writeInConsole("The keyword action was executed",TLogger.NORMAL_LEVEL);
+                TLogger.trackeTest("The keyword action was executed",TLogger.NORMAL_LEVEL);
             }
             if(currentTestFile.isFather()){TTestRunnerPrinter.printFooterTest();}
         }catch (Exception e){
-            TLogger.writeInConsole(TLogger.MSG_STEP_ERROR+ "Sometings go wrong reading the test file. Check function name in test class.", TLogger.WARNING_LEVEL);
-            TLogger.writeInConsole(e.toString(), TLogger.ERROR_LEVEL);
+            TLogger.trackeTest(TLogger.MSG_STEP_ERROR+ "Sometings go wrong reading the test file. Check function name in test class.", TLogger.WARNING_LEVEL);
+            TLogger.trackeTest(e.toString(), TLogger.ERROR_LEVEL);
             TestController.validateTest(e.getMessage(), TLogger.ERROR_LEVEL);
         }
 
@@ -100,7 +105,7 @@ public class TestController {
         String [] currentFatherInputStep;
         currentFatherInputStep = fatherTestFile.getInput(fatherTestStepNum);
         String callToFileName = currentFatherInputStep[0];
-        TLogger.writeInConsole("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
+        TLogger.trackeTest("*******************************************  Running CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
         TestFile callToTestFile =   new TestFile (callToFileName+AppKeys.TEST_FILE_EXTENSION,fatherTestFile.getTestProfileName(),this.profileDir,
                             false,fatherTestFile.getClassName(),(fatherTestFile.isFather())?fatherTestFile.getName()
                                     :fatherTestFile.getPrincipalTestName());
@@ -109,7 +114,7 @@ public class TestController {
         this.testFileList.add(callToTestFile);
         this.runTest(callToFileName);
         this.testFileList.remove(callToTestFile);
-        TLogger.writeInConsole("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
+        TLogger.trackeTest("******************************************* Ending CallTo "+"\""+callToFileName+"\"    *******************************************", TLogger.WARNING_LEVEL);
     }
 
     private TestFile getTestFromList(String testName){
@@ -153,5 +158,16 @@ public class TestController {
             }
         }
         if(deleteTest!=null)testFileList.remove(deleteTest);
+    }
+
+    @BeforeTest (alwaysRun = true)
+    public void beforeTest(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy_HHmmss");
+        String dirLogName = dateFormat.format(new Date());
+        dirLogName ="Log/Logs_"+dirLogName+"/";
+        new File(AppKeys.TEST_REPOSITORY_PATH+"/Log").mkdir();
+        File f = new File(AppKeys.TEST_REPOSITORY_PATH+dirLogName);
+        f.mkdir();
+        Log.setLogDirPath(dirLogName);
     }
 }

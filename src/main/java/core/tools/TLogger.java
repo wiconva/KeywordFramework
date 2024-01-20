@@ -7,6 +7,7 @@ public class TLogger {
     public static final String  MSG_STEP_ERROR = "[!!!ERROR!!!]";
     private static final String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
 
+
     public static final int STEP_LEVEL = 0;
     public static final int WARNING_LEVEL = 1;
     public static final int ERROR_LEVEL = 2;
@@ -23,9 +24,9 @@ public class TLogger {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void writeInConsole(String msg, int logLevel){
-        msg = giveFormatAtMsg(msg,logLevel);
-        System.out.println(msg);
+    public static void trackeTest(String msg, int logLevel){
+        writeOnConsole(msg, logLevel);
+        writeOnLog(msg, logLevel);
     }
 
     private static String getTime(){
@@ -37,7 +38,6 @@ public class TLogger {
     private static String giveFormatAtMsg (String msg, int logLevel){
 
         msg = (logLevel==ERROR_LEVEL)?MSG_STEP_ERROR+msg:msg;
-        logLevel = (msg.contains(MSG_STEP_ERROR))?ERROR_LEVEL:logLevel;
 
     //Format for a father test.
         if(msg.contains("**")){
@@ -47,7 +47,21 @@ public class TLogger {
             msg = msg.replace("\n","\n\t\t\t  ");
             msg = "\t\t- "+msg;
         }
+        return msg;
+    }
+    private static void writeOnConsole (String msg, int logLevel){
+        String threadName = Thread.currentThread().getName();
+        String descomposeThreadName [] = threadName.split("-");
+        int threadNumber = Integer.parseInt(descomposeThreadName[descomposeThreadName.length-1]);
+        if(threadNumber == 1){
+            msg = giveFormatAtMsg(msg,logLevel);
+            msg = colorFormatedForConsole(msg,logLevel);
+            System.out.println(msg);
+        }
+    }
 
+    private static String colorFormatedForConsole (String msg, int logLevel){
+        logLevel = (msg.contains(MSG_STEP_ERROR))?ERROR_LEVEL:logLevel;
         switch (logLevel){
             case STEP_LEVEL:
                 msg =(ANSI_GREEN+getTime()+ msg+ANSI_RESET).replace("\t","");
@@ -66,5 +80,18 @@ public class TLogger {
                 break;
         }
         return msg;
+    }
+
+    private static void writeOnLog (String msg, int logLevel){
+        msg = (logLevel==ERROR_LEVEL)?MSG_STEP_ERROR+msg:msg;
+        if(msg.contains(TLogger.MSG_STEP_ERROR))logLevel=TLogger.ERROR_LEVEL;
+        //Format for a father test.
+        if(msg.contains("**")){
+            msg = "\t"+msg;
+        }else if (logLevel == TLogger.NORMAL_LEVEL || logLevel == TLogger.ERROR_LEVEL){
+            msg = "\t\t"+msg;
+        }
+        Log testLog = new Log (Thread.currentThread().getName().replace("TestNG-test=",""));
+        testLog.write(msg);
     }
 }

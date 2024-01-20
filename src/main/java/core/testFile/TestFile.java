@@ -30,7 +30,6 @@ public class TestFile {
     private String principalTestName ="";
     private String profileDir;
 
-
    //Constructors principal test file.
     public TestFile(String name, String profile, String profileDir, boolean isFather, String className){
        this.name = name;
@@ -139,7 +138,7 @@ public class TestFile {
             Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_CLASS_FIELD_NAME);
             dataFileName = (String)field.get(classInstance);
         } catch (Exception e) {
-            TLogger.writeInConsole("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
+            TLogger.trackeTest("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
         }
         return dataFileName;
     }
@@ -151,7 +150,7 @@ public class TestFile {
             properties.load(new FileReader(locationPathFinder.getPath()));
             return properties.getProperty(this.testProfileName+"."+ key);
         } catch (IOException e) {
-            TLogger.writeInConsole(e.toString(), TLogger.ERROR_LEVEL);
+            TLogger.trackeTest(e.toString(), TLogger.ERROR_LEVEL);
             TestController.validateTest("", TLogger.ERROR_LEVEL);
         }
         return null;
