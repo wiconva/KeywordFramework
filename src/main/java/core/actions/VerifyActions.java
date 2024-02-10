@@ -11,18 +11,18 @@ public class VerifyActions {
                textEqual(currentInputStep[1],currentInputStep[2]);
                break;
            default:
-               TLogger.trackeTest("The specific "+currentInputStep[0]+" verify action does not exist",TLogger.ERROR_LEVEL);
+               TLogger.trackTest("The specific "+currentInputStep[0]+" verify action does not exist",TLogger.ERROR_LEVEL);
                TestController.validateTest(TLogger.ERROR_LEVEL);
                break;
        }
     }
 
     private static void textEqual (String value, String expectedValue){
-        TLogger.trackeTest("Verify text equal Action",TLogger.NORMAL_LEVEL);
+        TLogger.trackTest("Verify text equal Action",TLogger.NORMAL_LEVEL);
         if(value.equals(expectedValue)){
-            TLogger.trackeTest("The words are equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.NORMAL_LEVEL);
+            TLogger.trackTest("The words are equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.NORMAL_LEVEL);
         }else{
-            TLogger.trackeTest("The words are not equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.ERROR_LEVEL);
+            TLogger.trackTest("The words are not equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.ERROR_LEVEL);
             TestController.validateTest(TLogger.ERROR_LEVEL);
         }
     }

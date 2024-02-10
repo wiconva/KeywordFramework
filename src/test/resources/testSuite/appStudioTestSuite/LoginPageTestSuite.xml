@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="AppStudio Testing" verbose="1" parallel="true" thread-count="4">
+<suite name="AppStudio Testing" verbose="1" parallel="true" thread-count="2">
     <test name="Login page test with Chrome driver">
         <parameter name="browser" value="chrome"></parameter>
         <parameter name="runheadless" value="true"></parameter>
         <parameter name="profileDir" value="AppStudioProfile"></parameter>
         <parameter name="profile" value="LocalHost"></parameter>
+        <parameter name="LoggerEnabled" value="true"></parameter>
+
         <groups>
             <run>
                 <include name="All"></include>
@@ -15,4 +17,5 @@
             <class name="tests.AppStudioTest.LoginTest.LoginTest"/>
         </classes>
     </test>
+
 </suite>

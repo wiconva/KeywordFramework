@@ -35,7 +35,7 @@ public class TExcelReader {
                 }
             }
         }catch (Exception e){
-            TLogger.trackeTest(TLogger.MSG_STEP_ERROR+"Can't open the data file, check that exist or file name",TLogger.WARNING_LEVEL);
+            TLogger.trackTest(TLogger.MSG_STEP_ERROR+"Can't open the data file, check that exist or file name",TLogger.WARNING_LEVEL);
         }
     }
 
@@ -70,7 +70,7 @@ public class TExcelReader {
             }
 
         } catch (Exception e) {
-            TLogger.trackeTest(e.toString(), TLogger.WARNING_LEVEL);
+            TLogger.trackTest(e.toString(), TLogger.WARNING_LEVEL);
         }
     }
 
@@ -101,7 +101,7 @@ public class TExcelReader {
             workbook.close();
             fis.close();
         }catch (Exception e){
-            TLogger.trackeTest(e.toString(), TLogger.ERROR_LEVEL);
+            TLogger.trackTest(e.toString(), TLogger.ERROR_LEVEL);
             TestController.validateTest("", TLogger.ERROR_LEVEL);
         }
         return returnValues;

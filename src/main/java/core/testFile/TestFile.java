@@ -25,7 +25,7 @@ public class TestFile {
     private WebActions webActions;
     public Hashtable <String,String> outputsList = new Hashtable<>();
     private Hashtable<String, String> data = new Hashtable<>();
-    private String className;
+    private String className;//This field is used for get the data file name using reflexion.
     private String dataFileName;
     private String principalTestName ="";
     private String profileDir;
@@ -138,7 +138,7 @@ public class TestFile {
             Field field = fatherClassReference.getDeclaredField(AppKeys.DATA_FILE_CLASS_FIELD_NAME);
             dataFileName = (String)field.get(classInstance);
         } catch (Exception e) {
-            TLogger.trackeTest("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
+            TLogger.trackTest("NOT data file name in the test class, check the class test" + testClassName, TLogger.WARNING_LEVEL);
         }
         return dataFileName;
     }
@@ -150,7 +150,7 @@ public class TestFile {
             properties.load(new FileReader(locationPathFinder.getPath()));
             return properties.getProperty(this.testProfileName+"."+ key);
         } catch (IOException e) {
-            TLogger.trackeTest(e.toString(), TLogger.ERROR_LEVEL);
+            TLogger.trackTest(e.toString(), TLogger.ERROR_LEVEL);
             TestController.validateTest("", TLogger.ERROR_LEVEL);
         }
         return null;

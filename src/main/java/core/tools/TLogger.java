@@ -1,5 +1,7 @@
 package core.tools;
 
+import core.controller.TestController;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,9 +26,9 @@ public class TLogger {
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public static void trackeTest(String msg, int logLevel){
-        writeOnConsole(msg, logLevel);
-        writeOnLog(msg, logLevel);
+    public static void trackTest(String msg, int logLevel){
+        if(TestController.loggerEnabled) writeOnLog(msg, logLevel);
+        if(TestController.threadCount == 1)writeOnConsole(msg, logLevel);
     }
 
     private static String getTime(){
@@ -36,9 +38,7 @@ public class TLogger {
     }
 
     private static String giveFormatAtMsg (String msg, int logLevel){
-
         msg = (logLevel==ERROR_LEVEL)?MSG_STEP_ERROR+msg:msg;
-
     //Format for a father test.
         if(msg.contains("**")){
             msg = msg.replace("\n","\n\t\t\t  ");
@@ -49,18 +49,14 @@ public class TLogger {
         }
         return msg;
     }
+
     private static void writeOnConsole (String msg, int logLevel){
-        String threadName = Thread.currentThread().getName();
-        String descomposeThreadName [] = threadName.split("-");
-        int threadNumber = Integer.parseInt(descomposeThreadName[descomposeThreadName.length-1]);
-        if(threadNumber == 1){
             msg = giveFormatAtMsg(msg,logLevel);
-            msg = colorFormatedForConsole(msg,logLevel);
+            msg = formatedColotForConsole(msg,logLevel);
             System.out.println(msg);
-        }
     }
 
-    private static String colorFormatedForConsole (String msg, int logLevel){
+    private static String formatedColotForConsole(String msg, int logLevel){
         logLevel = (msg.contains(MSG_STEP_ERROR))?ERROR_LEVEL:logLevel;
         switch (logLevel){
             case STEP_LEVEL:
