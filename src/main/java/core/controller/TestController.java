@@ -9,10 +9,7 @@ import core.actions.UtilActions;
 import core.actions.WebActions;
 import core.keys.AppKeys;
 import core.tools.*;
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -66,6 +63,9 @@ public class TestController {
                             break;
                         case "inputtext":
                             correctExecution = currentTestFile.getWebActions().inputText(currentWebObjectStep, currentInputStep, currentOutputStep);
+                            break;
+                        case "clickon":
+                            correctExecution = currentTestFile.getWebActions().ClickOn(currentWebObjectStep,currentInputStep,currentOutputStep,currentTestFile.getOutputsList());
                             break;
                         case "verify":
                             VerifyActions.verify(currentWebObjectStep, currentInputStep, currentOutputStep);

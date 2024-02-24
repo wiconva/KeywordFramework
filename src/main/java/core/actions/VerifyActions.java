@@ -20,9 +20,9 @@ public class VerifyActions {
     private static void textEqual (String value, String expectedValue){
         TLogger.trackTest("Verify text equal Action",TLogger.NORMAL_LEVEL);
         if(value.equals(expectedValue)){
-            TLogger.trackTest("The words are equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.NORMAL_LEVEL);
+            TLogger.trackTest("The words are equal [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.NORMAL_LEVEL);
         }else{
-            TLogger.trackTest("The words are not equals [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.ERROR_LEVEL);
+            TLogger.trackTest("The words are not equal [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.ERROR_LEVEL);
             TestController.validateTest(TLogger.ERROR_LEVEL);
         }
     }

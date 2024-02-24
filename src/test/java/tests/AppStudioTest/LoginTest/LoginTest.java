@@ -23,4 +23,7 @@ public class LoginTest extends TestController {
 
     @Test(groups = {"LoginPage","T0004","All"})
     public void T0004_VerifyLoginButtonLabel() {executeTest();}
+
+    @Test(groups = {"LoginPage","T0005","All"})
+    public void T0005_LoginButtonSuccess() {executeTest();}
 }

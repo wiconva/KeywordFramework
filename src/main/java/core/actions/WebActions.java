@@ -83,6 +83,21 @@ public class WebActions {
 
     }
 
+    public boolean ClickOn (String[] currentWebObjectStep, String[] currentInputStep, String[] currentOutputStep, Hashtable<String, String> outputsList) {
+        try{
+            TLogger.trackTest("Clicking on the web element",TLogger.NORMAL_LEVEL);
+            WebElement we = findWebElement(currentWebObjectStep);
+            we.click();
+            TLogger.trackTest("Click done on the element",TLogger.NORMAL_LEVEL);
+            return true;
+        }catch (Exception e){
+            TLogger.trackTest("Was not possible Click on the Web element", TLogger.ERROR_LEVEL);
+            TLogger.trackTest(e.getMessage(), TLogger.ERROR_LEVEL);
+            return false;
+        }
+
+    }
+
     private WebElement findWebElement (String [] objectWebStep) {
         try {
             TLogger.trackTest("Searching the Web Element in the Web page", TLogger.NORMAL_LEVEL);
@@ -102,6 +117,8 @@ public class WebActions {
             return null;
         }
     }
+
+
 
     public void closeBrowser(){
         this.webDriver.quit();
