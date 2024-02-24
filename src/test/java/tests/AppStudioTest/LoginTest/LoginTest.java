@@ -1,7 +1,6 @@
 package tests.AppStudioTest.LoginTest;
 
 import core.controller.TestController;
-import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestController {

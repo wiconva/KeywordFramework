@@ -10,11 +10,24 @@ public class VerifyActions {
            case "textequal":
                textEqual(currentInputStep[1],currentInputStep[2]);
                break;
+           case "textcontains":
+               textContains(currentInputStep[1],currentInputStep[2]);
+               break;
            default:
                TLogger.trackTest("The specific "+currentInputStep[0]+" verify action does not exist",TLogger.ERROR_LEVEL);
                TestController.validateTest(TLogger.ERROR_LEVEL);
                break;
        }
+    }
+
+    private static void textContains(String value, String expectedValue){
+        TLogger.trackTest("Verify text contains Action",TLogger.NORMAL_LEVEL);
+        if(value.contains(expectedValue)){
+            TLogger.trackTest("The text is contained [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.NORMAL_LEVEL);
+        }else{
+            TLogger.trackTest("The text is not contains [value:"+value+" - Expected Value:"+expectedValue+"]",TLogger.ERROR_LEVEL);
+            TestController.validateTest(TLogger.ERROR_LEVEL);
+        }
     }
 
     private static void textEqual (String value, String expectedValue){
