@@ -49,6 +49,7 @@ public class TExcelReader {
                 int rowCount = sheet.getLastRowNum();
                 String [][] dataFileInput = new String [rowCount+1][test.getCELLS()] ;
 
+                boolean haveNumricCells = false;
                 for (int i=0; i<= rowCount;i++){
                     for(int j=0; j< test.getCELLS(); j++){
                         try{
@@ -57,12 +58,17 @@ public class TExcelReader {
                             if(cellType.equals("STRING")){
                                 dataFileInput [i][j] = cell.getStringCellValue();
                             } else if (cellType.equals("NUMERIC")) {
-                                dataFileInput [i][j] = Double.toString(cell.getNumericCellValue());
+                                TLogger.trackTest(TLogger.MSG_STEP_ERROR+"The run will stop, the cell ["+(i+1)+","+(j+1)+"] contains numeric formats.",TLogger.ERROR_LEVEL);
+                                haveNumricCells = true;
                             }
                         }catch  (NullPointerException e){
                             dataFileInput [i][j] =null;
                         }
                     }
+                }
+                if(haveNumricCells){
+                    TLogger.trackTest(TLogger.MSG_STEP_ERROR+"Check the excel file and fix the format of the test file",TLogger.ERROR_LEVEL);
+                    TestController.validateTest(TLogger.ERROR_LEVEL);
                 }
                 test.setSteps(dataFileInput);
                 workbook.close();
