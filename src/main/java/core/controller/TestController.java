@@ -32,6 +32,11 @@ public class TestController {
         TestFile currentTestFile=this.getTestFromList(testName);
         try {
             if (currentTestFile.isFather()) TTestRunnerPrinter.printHeaderLogTest(currentTestFile);
+            if(currentTestFile.getNumericFormatMessage()!=null){
+                TLogger.trackTest(currentTestFile.getNumericFormatMessage(),TLogger.ERROR_LEVEL);
+                TLogger.trackTest(TLogger.MSG_STEP_ERROR+"Check the excel file and fix the format of the test file",TLogger.ERROR_LEVEL);
+                TestController.validateTest(TLogger.ERROR_LEVEL);
+            }
             for (int currentStep = 1; currentStep < currentTestFile.getSteps().length; currentStep++) {
                 currentTestFile.tranformInput(currentStep);
                 TTestRunnerPrinter.printStep(currentStep,currentTestFile, testName);

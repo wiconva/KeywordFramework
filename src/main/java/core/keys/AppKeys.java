@@ -7,7 +7,7 @@ public final class AppKeys {
     public final static String TEST_FILE_EXTENSION = ".xlsx";
 
     //Configuration framework use.
-    public final static int TIME_TO_NEXT_EXECUTION_TRY_OF_KEYWORD_FAIL = 30;
+    public final static int TIME_TO_NEXT_EXECUTION_TRY_OF_KEYWORD_FAIL = 5;
     public final static int EXECUTION_TRY_OF_KEYWORD_FAIL = 3;
     public final static String USER_DIR = System.getProperty("user.dir");
     public final static String INPUT_DELIMITER = "\\|\\|";

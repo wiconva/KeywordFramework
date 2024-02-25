@@ -4,11 +4,13 @@
     <test name="All test">
         <parameter name="browser" value="chrome"></parameter>
         <parameter name="runheadless" value="true"></parameter>
-        <parameter name="profileDir" value="frameworkProfile"></parameter>
+        <parameter name="profileDir" value="AppStudioProfile"></parameter>
+        <parameter name="LoggerEnabled" value="true"></parameter>
         <parameter name="profile" value="LocalHost"></parameter>
+
         <groups>
             <run>
-                <include name="FrameworkTest"></include>
+                <include name="T0011_NumericFormatInCellsErrorTest"></include>
             </run>
         </groups>
         <classes>

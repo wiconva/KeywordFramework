@@ -39,7 +39,8 @@ public class TExcelReader {
         }
     }
 
-    public static void readFileTest (TestFile test){
+    public static String readFileTest (TestFile test){
+        String haveNumricCells = null;
         try {
             if(!test.getUrl().contains(TLogger.MSG_STEP_ERROR)) {
                 FileInputStream fis = new FileInputStream(test.getUrl());
@@ -49,7 +50,7 @@ public class TExcelReader {
                 int rowCount = sheet.getLastRowNum();
                 String [][] dataFileInput = new String [rowCount+1][test.getCELLS()] ;
 
-                boolean haveNumricCells = false;
+
                 for (int i=0; i<= rowCount;i++){
                     for(int j=0; j< test.getCELLS(); j++){
                         try{
@@ -58,17 +59,12 @@ public class TExcelReader {
                             if(cellType.equals("STRING")){
                                 dataFileInput [i][j] = cell.getStringCellValue();
                             } else if (cellType.equals("NUMERIC")) {
-                                TLogger.trackTest(TLogger.MSG_STEP_ERROR+"The run will stop, the cell ["+(i+1)+","+(j+1)+"] contains numeric formats.",TLogger.ERROR_LEVEL);
-                                haveNumricCells = true;
+                                haveNumricCells += TLogger.MSG_STEP_ERROR+"The cell ["+(i+1)+","+(j+1)+"] contains numeric formats.\n";
                             }
                         }catch  (NullPointerException e){
                             dataFileInput [i][j] =null;
                         }
                     }
-                }
-                if(haveNumricCells){
-                    TLogger.trackTest(TLogger.MSG_STEP_ERROR+"Check the excel file and fix the format of the test file",TLogger.ERROR_LEVEL);
-                    TestController.validateTest(TLogger.ERROR_LEVEL);
                 }
                 test.setSteps(dataFileInput);
                 workbook.close();
@@ -78,6 +74,7 @@ public class TExcelReader {
         } catch (Exception e) {
             TLogger.trackTest(e.toString(), TLogger.WARNING_LEVEL);
         }
+        return haveNumricCells.substring(0,haveNumricCells.length()-1).replace("null","");
     }
 
     public static String [] readObjectRespositoryFile (String fileName, String webObject){

@@ -29,6 +29,7 @@ public class TestFile {
     private String dataFileName;
     private String principalTestName ="";
     private String profileDir;
+    private String numericFormatMessage;
 
    //Constructors principal test file.
     public TestFile(String name, String profile, String profileDir, boolean isFather, String className){
@@ -40,7 +41,7 @@ public class TestFile {
        this.setUrl(new TLocationPathFinder(AppKeys.TEST_REPOSITORY_PATH,this.getName()).getPath());
        this.dataFileName = this.getDataFileName(className);
        this.loadData();
-       TExcelReader.readFileTest(this);
+       this.numericFormatMessage = TExcelReader.readFileTest(this);
     }
 
     //Constructor callto test file.
@@ -54,7 +55,7 @@ public class TestFile {
         this.dataFileName = this.getDataFileName(className);
         this.principalTestName = principalTestName;
         this.loadData();
-        TExcelReader.readFileTest(this);
+        this.numericFormatMessage =TExcelReader.readFileTest(this);
     }
 
     private void loadData() {
@@ -173,4 +174,5 @@ public class TestFile {
     public void setOutputsList (Hashtable <String, String> outputsList){this.outputsList = outputsList;}
     public Hashtable<String, String> getOutputsList() {return outputsList;}
     public String getName() {return this.name;}
+    public String getNumericFormatMessage (){return this.numericFormatMessage;}
 }
